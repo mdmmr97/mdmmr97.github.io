@@ -8,7 +8,7 @@ function Carta () {
     let x //posicion x tablero
     let y //posicion y tablero 
 }
-function DarImagen(_imagen) {Carta.prototype.imagen = _imagen;}
+function darImagen(_imagen) {Carta.prototype.imagen = _imagen;}
 
 Carta.prototype.anchom = ANCHOCARTAIM;
 Carta.prototype.altom = LARGOCARTAIM;
@@ -16,3 +16,5 @@ Carta.prototype.altom = LARGOCARTAIM;
 Carta.prototype.ancho = ANCHOCARTA;
 Carta.prototype.alto = LARGOCARTA;
 
+//Carta.prototype.generarPosicionX() {}
+//Carta.prototype.generarPosicionY() {}
