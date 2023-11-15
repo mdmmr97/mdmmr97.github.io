@@ -29,10 +29,8 @@ const NFILAS = 7;
 const XREPARTO = 83;
 const YREPARTO = 180;
 
-const XGUARDAR = 47;
-const YGUARDAR = 20;
-
+const XRESERVA = 47;
+const YRESERVA_MONTON = 20;
 const XMONTON = 530;
-const YMONTON = 20;
 
 const VELOCIDAD = 2;
