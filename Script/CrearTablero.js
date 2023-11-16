@@ -3,12 +3,12 @@ let yimagen = 0;
 
 let x = XREPARTO;
 let y = YREPARTO;
-let ultimopalo;
-let cambiofila = false;
+let ultimopalo, posicion, carta, limitefila;
+let cambiocolumna = false;
 let columna = 0;
 let fila = 0;
 
-let posicion, carta, carta_reserva, mazo_monton, xreserva_monton, xtipo;
+let carta_reserva, mazo_monton, xreserva_monton, xtipo;
 
 let numero = 0;
 let baraja = [];
@@ -51,27 +51,29 @@ function obtenerCoordImagen (palo) {
     return posicion;
 }
 
-function darX() {
-    if (columna >= NCOLUMNAS) {
-        x = XREPARTO;
-        columna = 0;
-        cambiofila = true;
-    } else cambiofila =false;
+function darY() {
 
-    posicion = x;
-    x += DISTCOLUMNAS;
-    columna++;
+    limitefila = columna >= DESNIVELROWCOLUM ? 1 : 0;
+    if (fila >= NFILAS - limitefila) {
+        y = YREPARTO;
+        fila = 0;
+        cambiofila = true;
+    } else cambiofila = false;
+
+    posicion = y;
+    y += DISTFILAS;
+    fila++;
 
     return posicion;
 }
 
-function darY() {
+function darX() {
     if (cambiofila) {
-        y += DISTFILAS;
-        fila++;
+        x += DISTCOLUMNAS;
+        columna++;
     }
 
-    return y;
+    return x;
 }
 
 function crearBaraja() {
@@ -100,18 +102,19 @@ function crearJuego() {
     baraja.sort(mezclarMazo);
 
     baraja.forEach(carta => {
+        carta.y = darY();
         carta.x = darX();
-        carta.y = darY()
     });
 
-    for (let f = 0; f < NFILAS; f++) juego[f] = [];
+    for (let c = 0; c < NCOLUMNAS; c++) juego[c] = [];
     let i = 0;
 
-    for (let f = 0; f < NFILAS; f++){
-        for (let c = 0; c < NCOLUMNAS; c++){
+    for (let c = 0; c < NCOLUMNAS; c++){
+        limitefila = c >= DESNIVELROWCOLUM ? 1 : 0;
+        for (let f = 0; f < NFILAS - limitefila; f++){
 
             if(i < baraja.length){
-                juego[f][c] = baraja[i];
+                juego[c][f] = baraja[i];
                 i++;
             }
         }

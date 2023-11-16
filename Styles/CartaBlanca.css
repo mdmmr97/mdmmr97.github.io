@@ -1,4 +1,5 @@
 #miCanvas { 
     background-image: url("../Imagenes/FondoTablero.png");
-    border: solid 1px #ccc; margin: 20px; 
+    border: solid 1px #ccc; 
+    margin: 20px; 
 }
