@@ -8,7 +8,7 @@ let cambiofila = false;
 let columna = 0;
 let fila = 0;
 
-let carta, carta_reserva, mazo_monton;
+let posicion, carta, carta_reserva, mazo_monton, xreserva_monton, xtipo;
 
 let numero = 0;
 let baraja = [];
@@ -58,7 +58,7 @@ function darX() {
         cambiofila = true;
     } else cambiofila =false;
 
-    let posicion = x;
+    posicion = x;
     x += DISTCOLUMNAS;
     columna++;
 
@@ -119,17 +119,42 @@ function crearJuego() {
     return juego;
 }
 
-function darXReservaMonton(){
+function darXReservaMonton(tipo){
+    if (xreserva_monton === undefined) {
+        xreserva_monton = XRESERVA;
+        xtipo = tipo
+    }
+    if (xtipo !== tipo) {
+        xreserva_monton = XMONTON;
+        xtipo = tipo
+    }
 
+    posicion = xreserva_monton;
+    xreserva_monton += DISTCOLUMNAS;
+
+    return posicion;
 }
 
 function crearReserva () {
     carta_reserva = new Reserva();
-    
+    carta_reserva.x =darXReservaMonton(TIPORESERVA);
+
+    return carta_reserva;
 }
-function crearReserva_Monton(){
+
+function crearMonton (i) {
+    mazo_monton = new Monton();
+    mazo_monton.palo = PALOS[i-PALOS.length];
+    mazo_monton.x = darXReservaMonton(TIPOMONTON);
+
+    return mazo_monton;
+}
+
+function crearReservaMonton(){
     for (let i = 0; i < COLUMNASRESERVA_MONTON; i++){
 
+        if (i < COLUMNASRESERVA_MONTON/2) reserva_monton[i] = crearReserva();
+        else reserva_monton[i] = crearMonton(i);
     }
     return reserva_monton;
 }

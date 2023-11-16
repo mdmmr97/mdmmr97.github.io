@@ -9,40 +9,38 @@ window.onload = function() {
 
     let seleccionar = [];
     let juego = [[]];
-    let reserva_moonton = [];
+    let reserva_monton = [];
+    let carta;
+    
+    function pintarCarta (carta) {
+        ctx.drawImage(carta.imagen,     // Imagen completa con todos los comecocos (Sprite)
+                      carta.coordimagen[0], // Posicion X del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
+                      carta.coordimagen[1], // Posicion Y del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
+                      carta.anchom,   		  // Tamaño X del comecocos que voy a recortar para dibujar
+                      carta.altom,	      // Tamaño Y del comecocos que voy a recortar para dibujar
+                      carta.x,              // Posicion x de pantalla donde voy a dibujar el comecocos recortado
+                      carta.y,	      // Posicion y de pantalla donde voy a dibujar el comecocos recortado
+                      carta.ancho,		  // Tamaño X del comecocos que voy a dibujar
+                      carta.alto    			  // Tamaño Y del comecocos que voy a dibujar
+                );
+    }
 
-    function pintaTablero() {
+    function pintaTablero(carta) {
 		
 		ctx.clearRect(0, 0, ALTOTABLERO, ANCHOTABLERO);
+
+        for (let r = 0; r < reserva_monton.length; r++){
+            if (reserva_monton[r].carta !== undefined) pintarCarta (reserva_monton[r].carta);
+        }
         
         for (let f = 0; f < juego.length; f++){
             for (let c = 0; c < juego[f].length; c++){
-                if (juego[f][c] !== undefined){
-                    ctx.drawImage(juego[f][c].imagen,     // Imagen completa con todos los comecocos (Sprite)
-                                  juego[f][c].coordimagen[0], // Posicion X del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
-                                  juego[f][c].coordimagen[1], // Posicion Y del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
-                                  juego[f][c].anchom,   		  // Tamaño X del comecocos que voy a recortar para dibujar
-                                  juego[f][c].altom,	      // Tamaño Y del comecocos que voy a recortar para dibujar
-                                  juego[f][c].x,              // Posicion x de pantalla donde voy a dibujar el comecocos recortado
-                                  juego[f][c].y,		      // Posicion y de pantalla donde voy a dibujar el comecocos recortado
-                                  juego[f][c].ancho,		  // Tamaño X del comecocos que voy a dibujar
-                                  juego[f][c].alto    			  // Tamaño Y del comecocos que voy a dibujar
-                    );
-                }
+                if (juego[f][c] !== undefined) pintarCarta (juego[f][c])
             }
         }
         if (seleccionar !== undefined){
             for (let s = 0; s < seleccionar.length; s++){
-                ctx.drawImage(juego[s].imagen,     // Imagen completa con todos los comecocos (Sprite)
-                              juego[s].coordimagen[0], // Posicion X del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
-                              juego[s].coordimagen[1], // Posicion Y del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
-                              juego[s].anchom,   		  // Tamaño X del comecocos que voy a recortar para dibujar
-                              juego[s].altom,	      // Tamaño Y del comecocos que voy a recortar para dibujar
-                              juego[s].x,              // Posicion x de pantalla donde voy a dibujar el comecocos recortado
-                              juego[s].y,		      // Posicion y de pantalla donde voy a dibujar el comecocos recortado
-                              juego[s].ancho,		  // Tamaño X del comecocos que voy a dibujar
-                              juego[s].alto    			  // Tamaño Y del comecocos que voy a dibujar
-                    );
+                if (seleccionar[s] !== undefined) pintarCarta (seleccionar[s])
             }
         }
 	}
@@ -59,7 +57,7 @@ window.onload = function() {
     darImagen(imagen);
     
     juego = crearJuego();
-    reserva_moonton = crearReserva_Monton();
+    reserva_monton = crearReservaMonton();
 
     id1= setInterval(pintaTablero, 1000/50);
 }

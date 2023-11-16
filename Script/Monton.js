@@ -2,7 +2,7 @@ function Monton () {
     let x;
     let palo;
 
-    let cartas;
+    let carta;
 }
 
 Monton.prototype.ancho = ANCHOCARTA;
