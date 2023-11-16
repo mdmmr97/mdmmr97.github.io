@@ -1,5 +1,6 @@
 function Monton () {
     let x;
+    let palo;
 
     let cartas;
 }

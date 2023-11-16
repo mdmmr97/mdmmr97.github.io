@@ -9,6 +9,7 @@ window.onload = function() {
 
     let seleccionar = [];
     let juego = [[]];
+    let reserva_moonton = [];
 
     function pintaTablero() {
 		
@@ -58,10 +59,7 @@ window.onload = function() {
     darImagen(imagen);
     
     juego = crearJuego();
-
-    for (let i = NCOLUMNAS-1; i <= NCOLUMNAS; i++){
-        juego[i] = [];
-    }
+    reserva_moonton = crearReserva_Monton();
 
     id1= setInterval(pintaTablero, 1000/50);
 }

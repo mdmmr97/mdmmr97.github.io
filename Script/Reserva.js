@@ -1,7 +1,7 @@
 function Reserva(){
     let x;
 
-    let cartas;
+    let carta;
 }
 
 Reserva.prototype.ancho = ANCHOCARTA;
