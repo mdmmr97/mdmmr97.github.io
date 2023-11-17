@@ -12,8 +12,6 @@ let carta_reserva, mazo_monton, xreserva_monton, xtipo;
 
 let numero = 0;
 let baraja = [];
-let juego = [];
-let reserva_monton = [];
 
 function darPalo(i) {
     if (i<13) return 0;
@@ -119,7 +117,6 @@ function crearJuego() {
             }
         }
     }
-    return juego;
 }
 
 function darXReservaMonton(tipo){
@@ -159,5 +156,4 @@ function crearReservaMonton(){
         if (i < COLUMNASRESERVA_MONTON/2) reserva_monton[i] = crearReserva();
         else reserva_monton[i] = crearMonton(i);
     }
-    return reserva_monton;
 }

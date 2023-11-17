@@ -16,5 +16,15 @@ Carta.prototype.altom = LARGOCARTAIM;
 Carta.prototype.ancho = ANCHOCARTA;
 Carta.prototype.alto = LARGOCARTA;
 
-//Carta.prototype.generarPosicionX() {}
-//Carta.prototype.generarPosicionY() {}
+Carta.prototype.generarPosicionXAuto = function (nuevax) {
+    if (nuevax > this.x) this.x += VELOCIDAD;
+    if (nuevax < this.x) this.x -= VELOCIDAD;
+
+    if (this.x > nuevax) this.x = nuevax;
+};
+Carta.prototype.generarPosicionYAuto = function (nuevay) {
+    if (nuevay > this.y) this.y += VELOCIDAD;
+    if (nuevay < this.y) this.y -= VELOCIDAD;
+
+    if (this.y > nuevay) this.y = nuevay;
+};

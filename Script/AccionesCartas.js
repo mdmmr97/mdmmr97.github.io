@@ -1,16 +1,5 @@
 let cartaselec = false;
 let xpuntero, ypuntero, xoriginal, yoriginal;
-let moveramazo;
-
-
-function dentroXCarta(xcarta, xpuntero){
-    if (xcarta <= xpuntero && (xcarta+ANCHOCARTA) >= xpuntero) return true;
-    else return false;
-}
-
-function dentroYCarta() {
-    
-}
 
 function seleccionarCarta(){
 
@@ -49,5 +38,10 @@ function buscarUltimasCartas(tablero){
 
 function guardarEnMazo(){
 
+
+}
+
+function terminadoPintar() {
+    
 }
 

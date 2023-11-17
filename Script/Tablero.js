@@ -1,18 +1,11 @@
 window.onload = function() {
-    let canvas;
-	let ctx;
-    let imagen;
-	let id1;
+    let canvas, ctx, imagen, id1, xpuntero, ypuntero;
 
     let ncartas = 52;
-
     let restrincion = 5;
     let finalizar = false;
-
-    let seleccionar = [];
-    let juego = [[]];
-    let reserva_monton = [];
-    let ultimasCartas = [];
+    let pintando = false;
+    let tipoPintura = TIPOMONTON;
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,     // Imagen completa con todos los comecocos (Sprite)
@@ -46,8 +39,15 @@ window.onload = function() {
             }
         }
 
-        if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length-1))){
-            
+        if (!pintando && tipoPintura === TIPOMONTON){
+            if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))){
+
+                pintando = true;
+            }
+            if (tipoPintura === TIPOMONTON) {
+                moverCarta();
+                if (terminadoPintar()) pintando = false;
+            }
         }
 	}
 
@@ -77,6 +77,12 @@ window.onload = function() {
     ctx = canvas.getContext("2d");
     
     canvas.addEventListener("mousedown", (e) => {
+        xpuntero = e.offsetX;
+        ypuntero = e.offsetY;
+
+        comprobarPunteroEnCarta()
+
+        pintando = true;
 
     }, false);
     canvas.addEventListener("mousemove", (e) => {
@@ -90,8 +96,8 @@ window.onload = function() {
     imagen.src = "Imagenes/Baraja.png";
     darImagen(imagen);
     
-    juego = crearJuego();
-    reserva_monton = crearReservaMonton();
+    crearJuego();
+    crearReservaMonton();
 
     id1= setInterval(pintaTablero, 1000/50);
 }

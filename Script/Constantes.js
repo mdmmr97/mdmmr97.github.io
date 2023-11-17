@@ -91,3 +91,10 @@ const YRESERVA_MONTON = 20;
 const XMONTON = 530;
 
 const VELOCIDAD = 2;
+
+/* ----- VARIABLES -----*/
+
+let seleccionar = [];
+let juego = [[]];
+let reserva_monton = [];
+let ultimasCartas = [];
