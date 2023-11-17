@@ -8,15 +8,15 @@ window.onload = function() {
     let tipoPintura = TIPOMONTON;
     
     function pintarCarta (carta) {
-        ctx.drawImage(carta.imagen,     // Imagen completa con todos los comecocos (Sprite)
+        ctx.drawImage(carta.imagen,         // Imagen completa con todos los comecocos (Sprite)
                       carta.coordimagen[0], // Posicion X del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
                       carta.coordimagen[1], // Posicion Y del sprite donde se encuentra el comecocos que voy a recortar del sprite para dibujar
-                      carta.anchom,   		  // Tamaño X del comecocos que voy a recortar para dibujar
-                      carta.altom,	      // Tamaño Y del comecocos que voy a recortar para dibujar
+                      carta.anchom,   		// Tamaño X del comecocos que voy a recortar para dibujar
+                      carta.altom,	        // Tamaño Y del comecocos que voy a recortar para dibujar
                       carta.x,              // Posicion x de pantalla donde voy a dibujar el comecocos recortado
-                      carta.y,	      // Posicion y de pantalla donde voy a dibujar el comecocos recortado
-                      carta.ancho,		  // Tamaño X del comecocos que voy a dibujar
-                      carta.alto    			  // Tamaño Y del comecocos que voy a dibujar
+                      carta.y,	            // Posicion y de pantalla donde voy a dibujar el comecocos recortado
+                      carta.ancho,		    // Tamaño X del comecocos que voy a dibujar
+                      carta.alto    		// Tamaño Y del comecocos que voy a dibujar
         );
     }
 
@@ -40,14 +40,11 @@ window.onload = function() {
         }
 
         if (!pintando && tipoPintura === TIPOMONTON){
-            if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))){
-
-                pintando = true;
-            }
-            if (tipoPintura === TIPOMONTON) {
-                moverCarta();
+            if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))) pintando = true;
+        }
+        if (tipoPintura === TIPOMONTON) {
+                moverCarta(ti);
                 if (terminadoPintar()) pintando = false;
-            }
         }
 	}
 

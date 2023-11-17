@@ -16,9 +16,9 @@ function seleccionarCarta(){
 }
 
 function moverCarta(){
-    if (cartaselec){
-        //Cambiamos coor de las cartas seleccionadas
-    }
+    seleccionar.forEach(carta => {
+        
+    });
 }
 
 function dejarCarta(){
