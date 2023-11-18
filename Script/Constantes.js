@@ -84,17 +84,21 @@ const YREPARTO = 180;
 
 const TIPORESERVA = "Reserva";
 const TIPOMONTON = "Monton";
-const TIPOCARTA = "Carta";
+const TIPOJUEGO = "Juego";
 
 const XRESERVA = 47;
 const YRESERVA_MONTON = 20;
 const XMONTON = 530;
 
-const VELOCIDAD = 2;
+const VELOCIDAD = 10;
 
 /* ----- VARIABLES -----*/
 
+let ncartas = 52;
 let seleccionar = [];
 let juego = [[]];
 let reserva_monton = [];
 let ultimasCartas = [];
+let montondestino;
+let tipoPintura = TIPOMONTON;
+let llegadodestino = false;

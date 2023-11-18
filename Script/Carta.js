@@ -16,15 +16,29 @@ Carta.prototype.altom = LARGOCARTAIM;
 Carta.prototype.ancho = ANCHOCARTA;
 Carta.prototype.alto = LARGOCARTA;
 
-Carta.prototype.generarPosicionXAuto = function (nuevax) {
-    if (nuevax > this.x) this.x += VELOCIDAD;
-    if (nuevax < this.x) this.x -= VELOCIDAD;
+Carta.prototype.generarPosicionXAuto = function () {
+    if (montondestino.x > this.x) this.x += VELOCIDAD;
+    if (montondestino.x < this.x) this.x -= VELOCIDAD;
 
-    if (this.x > nuevax) this.x = nuevax;
+    if (Math.abs(this.x - montondestino.x) < VELOCIDAD) this.x = montondestino.x;
 };
-Carta.prototype.generarPosicionYAuto = function (nuevay) {
-    if (nuevay > this.y) this.y += VELOCIDAD;
-    if (nuevay < this.y) this.y -= VELOCIDAD;
+Carta.prototype.generarPosicionYAuto = function () {
+    if (montondestino.y > this.y) this.y += VELOCIDAD;
+    if (montondestino.y < this.y) this.y -= VELOCIDAD;
 
-    if (this.y > nuevay) this.y = nuevay;
+    if (Math.abs(this.y - montondestino.y) < VELOCIDAD) this.y = montondestino.y;
 };
+
+Carta.prototype.generarPosicionX = function () {
+    if (montondestino.x > this.x) this.x += VELOCIDAD;
+    if (montondestino.x < this.x) this.x -= VELOCIDAD;
+
+    if (this.x > montondestino.x) this.x = montondestino.x;
+};
+Carta.prototype.generarPosicionY = function () {
+    if (montondestino.y > this.y) this.y += VELOCIDAD;
+    if (montondestino.y < this.y) this.y -= VELOCIDAD;
+
+    if (this.y > montondestino.y) this.y = montondestino.y;
+};
+

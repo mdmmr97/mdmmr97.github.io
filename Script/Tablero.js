@@ -1,11 +1,9 @@
 window.onload = function() {
     let canvas, ctx, imagen, id1, xpuntero, ypuntero;
 
-    let ncartas = 52;
     let restrincion = 5;
     let finalizar = false;
     let pintando = false;
-    let tipoPintura = TIPOMONTON;
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa con todos los comecocos (Sprite)
@@ -42,9 +40,9 @@ window.onload = function() {
         if (!pintando && tipoPintura === TIPOMONTON){
             if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))) pintando = true;
         }
-        if (tipoPintura === TIPOMONTON) {
-                moverCarta(ti);
-                if (terminadoPintar()) pintando = false;
+        if (pintando && tipoPintura === TIPOMONTON) {
+            moverCarta();
+            if (terminadoPintar()) pintando = false;
         }
 	}
 
