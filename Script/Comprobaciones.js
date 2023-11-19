@@ -32,7 +32,7 @@ function comprobarPunteroEnReserva(reserva) {
     return reserva.some(nreserva => {
         if (dentroX(nreserva.x) && dentroY(nreserva.y, true)) {
             cartapuntero = nreserva;
-            tipomovimiento = TIPORESERVA;
+            if (tipomovimiento === TIPOMONTON) tipomovimiento = TIPORESERVA;
             return true;
         }
         return false
@@ -44,13 +44,14 @@ function comprobarPunteroEnCarta () {
         return columna.some(fila => {
             if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
                 cartapuntero = fila;
-                tipomovimiento = TIPOJUEGO;
+                if (tipomovimiento === TIPOMONTON) tipomovimiento = TIPOJUEGO;
                 return true;
             }
             return false;
         })
     });
 }
+
 function comprobarMoverAMazo(disponiblesmover, monton) {
     for (let d = 0; d < disponiblesmover.length; d++){
         for (let m = 0; m < monton.length; m++) {
@@ -67,7 +68,7 @@ function comprobarMoverAMazo(disponiblesmover, monton) {
     return false;
 }
 
-function comprobarMoverAReserva(seleccionadas, reserva) {return seleccionadas.length === 1 && reserva.carta === undefined ? true : false}
+function comprobarMoverAReserva() {return seleccionar.length === 1 && cartapuntero.carta === undefined ? true : false}
 
 function comprobarMoverSeleccion() {
     let cumplecondicion = true;

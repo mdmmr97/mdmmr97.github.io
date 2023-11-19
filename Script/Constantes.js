@@ -107,4 +107,5 @@ let xpuntero;
 let ypuntero;
 
 let cartapuntero;
+let origencarta;
 let restrincion = 5;

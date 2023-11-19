@@ -47,9 +47,11 @@ window.onload = function() {
             moverCarta();
             if (terminadoPintar()) pintando = false;
         }
-
+        //Cantidad cartas en juego -> restrincion movimientos 1 -> moverultimas y la que se mueve en la fila arriba no sea la misma que el destino
         if (ncartas === 0 ) clearInterval(id1);
+
 	}
+
 
     function obtenerPosicionPuntero(e){
         let areacarta = canvas.getBoundingClientRect();
@@ -85,9 +87,10 @@ window.onload = function() {
                 dejarCarta();
             }
             else{
-                devolverPosicionOriginal();
+                devolverCartaPosicionOriginal();
             }
             pintando = false;
+            tipomovimiento = TIPOMONTON;
         }
     });
 

@@ -8,6 +8,22 @@ function guardarEnSeleccion(){
     return selec;
 }
 
+function guardarEnJuego() {
+    juego.forEach(colum => {
+        if(colum.includes(cartapuntero)){
+            colum.push(seleccionar);
+        }
+    })
+}
+
+function guardarEnReserva() {
+    reserva_monton.forEach(reserva => {
+        if(reserva.includes(cartapuntero)) {
+            reserva.carta = seleccionar[0];
+        }
+    })
+}
+
 function borrarCartaJuego() {
     juego.forEach(colum => {
         if(colum.includes(seleccionar[0])){
@@ -21,7 +37,11 @@ function borrarCartaSelect() {
 }
 
 function borrarCartaReserva() {
-    
+    reserva_monton.forEach(monton => {
+        if(monton.includes(seleccionar[0])){
+            monton.carta = undefined;
+        }
+    })
 }
 
 function terminadoPintar() {
@@ -85,8 +105,11 @@ function moverCarta(){
 
 function dejarCarta(){
     switch (tipomovimiento) {
-        case TIPOMONTON:
-            
+        case TIPORESERVA:
+            if (comprobarMoverAReserva){
+                guardarEnReserva();
+                borrarCartaSelect();
+            }
         break;
         case TIPOJUEGO:
         break;
