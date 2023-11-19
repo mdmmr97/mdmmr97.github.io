@@ -105,7 +105,6 @@ let llegadodestino = false;
 
 let xpuntero;
 let ypuntero;
-let cartapuntero;
 
-let xoriginal;
-let yoriginal;
+let cartapuntero;
+let restrincion = 5;

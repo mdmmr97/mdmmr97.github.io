@@ -7,6 +7,9 @@ function Carta () {
     
     let x //posicion x tablero
     let y //posicion y tablero 
+
+    let xoriginal;
+    let yoriginal;
 }
 function darImagen(_imagen) {Carta.prototype.imagen = _imagen;}
 
@@ -29,10 +32,19 @@ Carta.prototype.generarPosicionYAuto = function () {
     if (Math.abs(this.y - montondestino.y) < VELOCIDAD) this.y = montondestino.y;
 };
 
-Carta.prototype.generarPosicionX = function () {
-    this.x = xpuntero;
+Carta.prototype.guardarPosicionOriginal = function () {
+    this.xoriginal = this.x;
+    this.yoriginal = this.y;
 };
-Carta.prototype.generarPosicionY = function () {
-    this.y = ypuntero;
+Carta.prototype.recuperarPosicionOriginal = function () {
+    this.x = this.xoriginal;
+    this.y = this.yoriginal;
+};
+
+Carta.prototype.generarPosicionX = function () {
+    this.x = xpuntero - (ANCHOCARTA / 2);
+};
+Carta.prototype.generarPosicionY = function (posicion) {
+    this.y = ypuntero - (LARGOCARTA / 2) + (DISTFILAS * posicion);
 };
 

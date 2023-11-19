@@ -2,10 +2,10 @@ function dentroX(xmover){ return xmover <= xpuntero && (xmover + ANCHOCARTA) >= 
 
 function dentroY(ymover, todareacarta) { 
     if (todareacarta){
-        return ymover <=ypuntero && (ymover + LARGOCARTA) >= ypuntero ? true : false;
+        return ymover <= ypuntero && (ymover + LARGOCARTA) >= ypuntero ? true : false;
     }
     else{
-        return ymover <=ypuntero && (ymover + DISTFILAS) >= ypuntero ? true : false;
+        return ymover <= ypuntero && (ymover + DISTFILAS) >= ypuntero ? true : false;
     }
 }
 
@@ -28,6 +28,29 @@ function comprobarPaloCarta(cartamover, palodestino) {return cartamover.palo ===
 
 function comprobarColorCarta(cartamover, cartadestino) {return cartamover.color !== cartadestino.color ? true : false}
 
+function comprobarPunteroEnReserva(reserva) {
+    return reserva.some(nreserva => {
+        if (dentroX(nreserva.x) && dentroY(nreserva.y, true)) {
+            cartapuntero = nreserva;
+            tipomovimiento = TIPORESERVA;
+            return true;
+        }
+        return false
+    });
+}
+
+function comprobarPunteroEnCarta () {
+    return juego.some(columna => {
+        return columna.some(fila => {
+            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
+                cartapuntero = fila;
+                tipomovimiento = TIPOJUEGO;
+                return true;
+            }
+            return false;
+        })
+    });
+}
 function comprobarMoverAMazo(disponiblesmover, monton) {
     for (let d = 0; d < disponiblesmover.length; d++){
         for (let m = 0; m < monton.length; m++) {
@@ -44,29 +67,19 @@ function comprobarMoverAMazo(disponiblesmover, monton) {
     return false;
 }
 
-function comprobarPunteroEnReserva(reserva) {
-    reserva.forEach(nreserva => {
-        if (dentroX(nreserva.x) && dentroY(nreserva.y, true)) {
-            cartapuntero = nreserva;
-            tipomovimiento = TIPORESERVA;
-            return true;
-        }
-    });
-    return false
-}
-
-function comprobarPunteroEnCarta () { //No va
-    juego.forEach(columna => {
-        columna.forEach(fila => {
-            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
-                cartapuntero = fila;
-                tipomovimiento = TIPOJUEGO;
-                return true;
-            }
-        })
-    });
-    return false;
-}
-
 function comprobarMoverAReserva(seleccionadas, reserva) {return seleccionadas.length === 1 && reserva.carta === undefined ? true : false}
+
+function comprobarMoverSeleccion() {
+    let cumplecondicion = true;
+    for (let carta = 1; carta < seleccionar.length; carta++){
+        if (!comprobarNumCarta(seleccionar[carta], seleccionar[carta-1], TIPOJUEGO) || 
+            !comprobarColorCarta(seleccionar[carta], seleccionar[carta-1])){
+                carta = seleccionar.length;
+                cumplecondicion = false;
+            }
+    }
+    return cumplecondicion;
+}
+
+function comprobarRestrincion() {return seleccionar.length <= restrincion ? true : false;}
 

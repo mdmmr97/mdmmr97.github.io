@@ -1,8 +1,6 @@
 window.onload = function() {
     let canvas, ctx, imagen, id1;
 
-    let restrincion = 5;
-    let finalizar = false;
     let pintando = false;
     
     function pintarCarta (carta) {
@@ -38,57 +36,60 @@ window.onload = function() {
         }
 
         if (!pintando && tipomovimiento === TIPOMONTON){
-            if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))) pintando = true;
+            if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))) {
+                pintando = true;
+                /*removeEventListener("mousedown");
+                removeEventListener("mousemove");
+                removeEventListener("mouseup");*/
+            }
         }
         if (pintando && tipomovimiento === TIPOMONTON) {
             moverCarta();
             if (terminadoPintar()) pintando = false;
         }
+
+        if (ncartas === 0 ) clearInterval(id1);
 	}
 
-    /*function seleccionarCarta (evt){
-        x = evt.offsetX;
-        y = evt.offsetY;
-        isDrawing = true;
+    function obtenerPosicionPuntero(e){
+        let areacarta = canvas.getBoundingClientRect();
+        xpuntero = e.clientX - areacarta.left;
+        ypuntero = e.clientY - areacarta.top;
     }
-    
-    function moverCarta (e){
-        if (isDrawing) {
-            drawLine(x, y, e.offsetX, e.offsetY);
-            x = e.offsetX;
-            y = e.offsetY;
-        }
-    }
-    
-    function dejarCarta(e){
-        if (isDrawing) {
-            drawLine(x, y, e.offsetX, e.offsetY);
-            x = 0;
-            y = 0;
-            isDrawing = false;
-        }
-    }*/
+
     canvas = document.getElementById("miCanvas");
     ctx = canvas.getContext("2d");
     
-    canvas.addEventListener("mousedown", (e) => {
-        xpuntero = e.offsetX;
-        ypuntero = e.offsetY;
-
+    canvas.addEventListener("mousedown", function(e) {
+        obtenerPosicionPuntero(e);
         if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
 
             seleccionarCarta();
-            pintando = true;
+            if (seleccionar.length > 0) pintando = true;
+            else tipomovimiento = TIPOMONTON;
         }
 
-    }, false);
-    canvas.addEventListener("mousemove", (e) => {
-        if (pintando) moverCarta();
+    });
+    canvas.addEventListener("mousemove", function(e) {
+        if (pintando) {
+            obtenerPosicionPuntero(e);
+            moverCarta();
+            pintaTablero();
+        }
         
-    }, false);	
-    canvas.addEventListener("mouseup", (e) => {
-        
-    }, false);
+    });	
+    canvas.addEventListener("mouseup", function(e) {
+        if (pintando){
+            obtenerPosicionPuntero(e);
+            if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
+                dejarCarta();
+            }
+            else{
+                devolverPosicionOriginal();
+            }
+            pintando = false;
+        }
+    });
 
     imagen = new Image();
     imagen.src = "Imagenes/Baraja.png";
@@ -98,4 +99,9 @@ window.onload = function() {
     crearReservaMonton();
 
     id1= setInterval(pintaTablero, 1000/50);
+/*
+
+canvas.addEventListener("mouseup", function() {
+  isDragging = false;
+});*/
 }
