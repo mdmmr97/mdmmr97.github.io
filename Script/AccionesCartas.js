@@ -1,7 +1,13 @@
-let xpuntero, ypuntero, xoriginal, yoriginal;
-
 function seleccionarCarta(){
 
+    switch (tipomovimiento) {
+        case TIPORESERVA:
+            
+        break;
+        case TIPOJUEGO:
+            
+        break;
+    }
     //Comprobamos si estamos seleccionando alguna carta y obtenemos cual/es(comprobamos que se puedan mover)
     //Comrobamos restrincion n cartas
     //Guardamos posicion origen
@@ -10,14 +16,15 @@ function seleccionarCarta(){
 }
 
 function moverCarta(){
-    switch (tipoPintura) {
+    switch (tipomovimiento) {
         case TIPOMONTON:
             seleccionar[0].generarPosicionXAuto();
             seleccionar[0].generarPosicionYAuto();
         break;
-        case TIPOJUEGO:
+        default:
             seleccionar.forEach(carta => {
-        
+                carta.generarPosicionX();
+                carta.generarPosicionY();
             });
         break;
     }
@@ -37,19 +44,8 @@ function buscarUltimasCartas(tablero){
     return ultimasCartas;
 }
 
-function guardarEnMazo(){
-    reserva_monton.forEach(monton => {
-        if (monton === montondestino) {
-            monton.carta = seleccionar[0];
-            borrarCartaJuego();
-            seleccionar.splice(0, seleccionar.length);
-        }
-    })
-
-}
-
 function terminadoPintar() {
-    switch (tipoPintura) {
+    switch (tipomovimiento) {
         case TIPOMONTON:
             if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
                 guardarEnMazo();
@@ -58,15 +54,21 @@ function terminadoPintar() {
                 return true;
             } 
         break;
+        case TIPOJUEGO:
+        break;
     }
-    /*if (tipoPintura === TIPOMONTON)
-        if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
-            guardarEnMazo();
-            ncartas--;
-            console.log(ncartas);
-            return true;
-        } */
     return false;
+}
+
+function guardarEnMazo(){
+    reserva_monton.forEach(monton => {
+        if (monton === montondestino) {
+            monton.carta = seleccionar[0];
+            borrarCartaJuego();
+            borrarCartaSelect();
+        }
+    })
+
 }
 
 function borrarCartaJuego() {
@@ -77,3 +79,6 @@ function borrarCartaJuego() {
     })
 }
 
+function borrarCartaSelect() {
+    seleccionar.splice(0, seleccionar.length);
+}

@@ -1,5 +1,5 @@
 window.onload = function() {
-    let canvas, ctx, imagen, id1, xpuntero, ypuntero;
+    let canvas, ctx, imagen, id1;
 
     let restrincion = 5;
     let finalizar = false;
@@ -20,7 +20,7 @@ window.onload = function() {
 
     function pintaTablero() {
 		
-		ctx.clearRect(0, 0, ALTOTABLERO, ANCHOTABLERO);
+		ctx.clearRect(0, 0, ANCHOTABLERO, ALTOTABLERO);
 
         for (let r = 0; r < reserva_monton.length; r++){
             if (reserva_monton[r].carta !== undefined) pintarCarta (reserva_monton[r].carta);
@@ -37,10 +37,10 @@ window.onload = function() {
             }
         }
 
-        if (!pintando && tipoPintura === TIPOMONTON){
+        if (!pintando && tipomovimiento === TIPOMONTON){
             if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))) pintando = true;
         }
-        if (pintando && tipoPintura === TIPOMONTON) {
+        if (pintando && tipomovimiento === TIPOMONTON) {
             moverCarta();
             if (terminadoPintar()) pintando = false;
         }
@@ -75,12 +75,15 @@ window.onload = function() {
         xpuntero = e.offsetX;
         ypuntero = e.offsetY;
 
-        comprobarPunteroEnCarta()
+        if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
 
-        pintando = true;
+            seleccionarCarta();
+            pintando = true;
+        }
 
     }, false);
     canvas.addEventListener("mousemove", (e) => {
+        if (pintando) moverCarta();
         
     }, false);	
     canvas.addEventListener("mouseup", (e) => {

@@ -67,7 +67,7 @@ const ANCHOCARTA = 105;
 const LARGOCARTA = 150;
 
 const DISTFILAS = 30;
-const DISTCOLUMNAS = 110;
+const DISTCOLUMNAS = 108;
 
 /* ----- TABLERO -----*/
 
@@ -90,7 +90,7 @@ const XRESERVA = 47;
 const YRESERVA_MONTON = 20;
 const XMONTON = 530;
 
-const VELOCIDAD = 10;
+const VELOCIDAD = 20;
 
 /* ----- VARIABLES -----*/
 
@@ -100,5 +100,12 @@ let juego = [[]];
 let reserva_monton = [];
 let ultimasCartas = [];
 let montondestino;
-let tipoPintura = TIPOMONTON;
+let tipomovimiento = TIPOMONTON;
 let llegadodestino = false;
+
+let xpuntero;
+let ypuntero;
+let cartapuntero;
+
+let xoriginal;
+let yoriginal;

@@ -30,15 +30,9 @@ Carta.prototype.generarPosicionYAuto = function () {
 };
 
 Carta.prototype.generarPosicionX = function () {
-    if (montondestino.x > this.x) this.x += VELOCIDAD;
-    if (montondestino.x < this.x) this.x -= VELOCIDAD;
-
-    if (this.x > montondestino.x) this.x = montondestino.x;
+    this.x = xpuntero;
 };
 Carta.prototype.generarPosicionY = function () {
-    if (montondestino.y > this.y) this.y += VELOCIDAD;
-    if (montondestino.y < this.y) this.y -= VELOCIDAD;
-
-    if (this.y > montondestino.y) this.y = montondestino.y;
+    this.y = ypuntero;
 };
 

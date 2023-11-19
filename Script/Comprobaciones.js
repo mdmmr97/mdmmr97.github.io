@@ -1,16 +1,12 @@
-function dentroXCarta(xcarta, xpuntero){ return xcarta <= xpuntero && (xcarta + ANCHOCARTA) >= xpuntero ? true : false;}
+function dentroX(xmover){ return xmover <= xpuntero && (xmover + ANCHOCARTA) >= xpuntero ? true : false;}
 
-function dentroYCarta(ycarta, ypuntero, ultima) { 
-    if (ultima){
-        return ycarta <=ypuntero && (ycarta + LARGOCARTA) >= ypuntero ? true : false;
+function dentroY(ymover, todareacarta) { 
+    if (todareacarta){
+        return ymover <=ypuntero && (ymover + LARGOCARTA) >= ypuntero ? true : false;
     }
     else{
-        return ycarta <=ypuntero && (ycarta + DISTFILAS) >= ypuntero ? true : false;
+        return ymover <=ypuntero && (ymover + DISTFILAS) >= ypuntero ? true : false;
     }
-}
-
-function comprobarPosicionPuntero() {
-    
 }
 
 function comprobarDestinoVacio (cartadestino) {return cartadestino === undefined ? true : false;}
@@ -32,10 +28,6 @@ function comprobarPaloCarta(cartamover, palodestino) {return cartamover.palo ===
 
 function comprobarColorCarta(cartamover, cartadestino) {return cartamover.color !== cartadestino.color ? true : false}
 
-function comprobarRestrinciones() {
-    
-}
-
 function comprobarMoverAMazo(disponiblesmover, monton) {
     for (let d = 0; d < disponiblesmover.length; d++){
         for (let m = 0; m < monton.length; m++) {
@@ -49,6 +41,30 @@ function comprobarMoverAMazo(disponiblesmover, monton) {
             }
         }
     }
+    return false;
+}
+
+function comprobarPunteroEnReserva(reserva) {
+    reserva.forEach(nreserva => {
+        if (dentroX(nreserva.x) && dentroY(nreserva.y, true)) {
+            cartapuntero = nreserva;
+            tipomovimiento = TIPORESERVA;
+            return true;
+        }
+    });
+    return false
+}
+
+function comprobarPunteroEnCarta () { //No va
+    juego.forEach(columna => {
+        columna.forEach(fila => {
+            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
+                cartapuntero = fila;
+                tipomovimiento = TIPOJUEGO;
+                return true;
+            }
+        })
+    });
     return false;
 }
 
