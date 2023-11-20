@@ -43,7 +43,8 @@ function comprobarPunteroEnReserva(reserva) {
 function comprobarPunteroEnCarta () {
     return juego.some(columna => {
         return columna.some(fila => {
-            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
+            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false) &&
+                fila !== areapuntero) {
                 areapuntero = fila;
                 if (origencarta === undefined) origencarta = TIPOJUEGO; 
                 tipomovimiento = TIPOJUEGO;
