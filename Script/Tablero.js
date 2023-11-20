@@ -52,7 +52,6 @@ window.onload = function() {
 
 	}
 
-
     function obtenerPosicionPuntero(e){
         let areacarta = canvas.getBoundingClientRect();
         xpuntero = e.clientX - areacarta.left;

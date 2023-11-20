@@ -54,6 +54,20 @@ function comprobarPunteroEnCarta () {
     });
 }
 
+function comprobarMoverAJuego() {
+    return juego.some(columna => {
+        if (columna.includes(areapuntero)){
+            if (comprobarNumCarta(seleccionar[0], areapuntero, TIPOJUEGO) || 
+                comprobarColorCarta(seleccionar[0], areapuntero) && 
+                columna.indexOf(areapuntero) === columna.length - 1)
+            {
+                return true;
+            }
+            else return false;
+        }
+    });
+}
+
 function comprobarMoverAMazo(disponiblesmover, monton) {
     for (let d = 0; d < disponiblesmover.length; d++){
         for (let m = 0; m < monton.length; m++) {

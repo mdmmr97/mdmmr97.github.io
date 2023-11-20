@@ -12,8 +12,10 @@ function guardarEnSeleccion(){
 function guardarEnJuego() {
     juego.forEach(colum => {
         if(colum.includes(areapuntero)){
-            seleccionar.forEach(carta => carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, seleccionar.indexOf(carta) + 1));
-            colum.push(seleccionar);
+            seleccionar.forEach(carta => {
+                carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, seleccionar.indexOf(carta) + 1)
+                colum.push(carta);
+            });
         }
     })
 }
@@ -50,7 +52,7 @@ function borrarCartaReserva() {
 }
 
 function devolverCartaPosicionOriginal() {
-seleccionar.forEach(carta => {carta.recuperarPosicionOriginal()})
+seleccionar.forEach(carta => {carta.recuperarPosicionOriginal()});
 }
 
 /* ----- MOUSE ----- */
@@ -108,11 +110,14 @@ function dejarCarta(){
             else{
                 devolverCartaPosicionOriginal();
                 borrarCartaSelect();
+                if (origencarta === TIPORESERVA) borrarCartaReserva();
+                if (origencarta === TIPOJUEGO) borrarCartaJuego();
             }
         break;
         case TIPOJUEGO:
             if (comprobarMoverAJuego()){
-
+                guardarEnJuego();
+                borrarCartaSelect();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -120,9 +125,6 @@ function dejarCarta(){
             }
         break;
     }
-    
-    //if (comprobarColorCarta() && comprobarNumCarta(cartaorigen,cartadestino,TIPOCARTA))
-    //Carta palo diferente y numero superio +1 o espacio
 }
 
 /* ----- AUTO ----- */
