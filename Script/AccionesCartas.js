@@ -1,8 +1,9 @@
 function guardarEnSeleccion(){
-    let selec = [];
+    let selec;
     juego.some(colum => {
-        if(colum.includes(cartapuntero)){
-            selec = colum.slice(colum.indexOf(cartapuntero), colum.length);
+        if(colum.includes(areapuntero)){
+            selec = colum.slice(colum.indexOf(areapuntero), colum.length);
+            return true;
         }
     })
     return selec;
@@ -10,7 +11,8 @@ function guardarEnSeleccion(){
 
 function guardarEnJuego() {
     juego.forEach(colum => {
-        if(colum.includes(cartapuntero)){
+        if(colum.includes(areapuntero)){
+            seleccionar.forEach(carta => carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, seleccionar.indexOf(carta) + 1));
             colum.push(seleccionar);
         }
     })
@@ -18,8 +20,9 @@ function guardarEnJuego() {
 
 function guardarEnReserva() {
     reserva_monton.forEach(reserva => {
-        if(reserva.includes(cartapuntero)) {
+        if(reserva.x === areapuntero.x) {
             reserva.carta = seleccionar[0];
+            reserva.carta.guardarPosicionNueva(reserva.x, reserva.y, 0);
         }
     })
 }
@@ -28,36 +31,26 @@ function borrarCartaJuego() {
     juego.forEach(colum => {
         if(colum.includes(seleccionar[0])){
             colum.splice(colum.indexOf(seleccionar[0]), colum.length);
+            origencarta = undefined;
         }
     })
 }
 
 function borrarCartaSelect() {
-    seleccionar.splice(0);
+    seleccionar.splice(0, seleccionar.length);
 }
 
 function borrarCartaReserva() {
     reserva_monton.forEach(monton => {
         if(monton.includes(seleccionar[0])){
             monton.carta = undefined;
+            origencarta = undefined;
         }
     })
 }
 
-function terminadoPintar() {
-    switch (tipomovimiento) {
-        case TIPOMONTON:
-            if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
-                guardarEnMazo();
-                ncartas--;
-                console.log(ncartas);
-                return true;
-            } 
-        break;
-        case TIPOJUEGO:
-        break;
-    }
-    return false;
+function devolverCartaPosicionOriginal() {
+seleccionar.forEach(carta => {carta.recuperarPosicionOriginal()})
 }
 
 /* ----- MOUSE ----- */
@@ -67,9 +60,9 @@ function seleccionarCarta(){
     switch (tipomovimiento) {
         case TIPORESERVA:
             borrarCartaSelect();
-            if (cartapuntero !== undefined){
-                cartapuntero.guardarPosicionOriginal();
-                seleccionar[0] = cartapuntero;
+            if (areapuntero.carta !== undefined){
+                areapuntero.carta.guardarPosicionOriginal();
+                seleccionar[0] = areapuntero.carta;
             }
         break;
         case TIPOJUEGO:
@@ -106,12 +99,25 @@ function moverCarta(){
 function dejarCarta(){
     switch (tipomovimiento) {
         case TIPORESERVA:
-            if (comprobarMoverAReserva){
+            if (comprobarMoverAReserva()){
                 guardarEnReserva();
+                if (origencarta === TIPORESERVA) borrarCartaReserva();
+                if (origencarta === TIPOJUEGO) borrarCartaJuego();
+                borrarCartaSelect();
+            }
+            else{
+                devolverCartaPosicionOriginal();
                 borrarCartaSelect();
             }
         break;
         case TIPOJUEGO:
+            if (comprobarMoverAJuego()){
+
+            }
+            else{
+                devolverCartaPosicionOriginal();
+                borrarCartaSelect();
+            }
         break;
     }
     
@@ -128,6 +134,17 @@ function buscarUltimasCartas(tablero){
     return ultimasCartas;
 }
 
+function terminadoPintar() {
+
+    if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
+        guardarEnMazo();
+        ncartas--;
+        console.log(ncartas);
+        return true;
+    } 
+    return false;
+}
+
 function guardarEnMazo(){
     reserva_monton.forEach(monton => {
         if (monton === montondestino) {
@@ -136,9 +153,5 @@ function guardarEnMazo(){
             borrarCartaSelect();
         }
     })
-
-}
-
-function devolverPosicionOriginal(){
 
 }

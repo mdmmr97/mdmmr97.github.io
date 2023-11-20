@@ -31,8 +31,9 @@ function comprobarColorCarta(cartamover, cartadestino) {return cartamover.color 
 function comprobarPunteroEnReserva(reserva) {
     return reserva.some(nreserva => {
         if (dentroX(nreserva.x) && dentroY(nreserva.y, true)) {
-            cartapuntero = nreserva;
-            if (tipomovimiento === TIPOMONTON) tipomovimiento = TIPORESERVA;
+            areapuntero = nreserva;
+            if(origencarta === undefined) origencarta = TIPORESERVA;
+            tipomovimiento = TIPORESERVA;
             return true;
         }
         return false
@@ -43,8 +44,9 @@ function comprobarPunteroEnCarta () {
     return juego.some(columna => {
         return columna.some(fila => {
             if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
-                cartapuntero = fila;
-                if (tipomovimiento === TIPOMONTON) tipomovimiento = TIPOJUEGO;
+                areapuntero = fila;
+                if (origencarta === undefined) origencarta = TIPOJUEGO; 
+                tipomovimiento = TIPOJUEGO;
                 return true;
             }
             return false;
@@ -68,7 +70,7 @@ function comprobarMoverAMazo(disponiblesmover, monton) {
     return false;
 }
 
-function comprobarMoverAReserva() {return seleccionar.length === 1 && cartapuntero.carta === undefined ? true : false}
+function comprobarMoverAReserva() {return seleccionar.length === 1 && areapuntero.carta === undefined ? true : false}
 
 function comprobarMoverSeleccion() {
     let cumplecondicion = true;

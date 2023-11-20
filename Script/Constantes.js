@@ -106,6 +106,6 @@ let llegadodestino = false;
 let xpuntero;
 let ypuntero;
 
-let cartapuntero;
+let areapuntero;
 let origencarta;
 let restrincion = 5;

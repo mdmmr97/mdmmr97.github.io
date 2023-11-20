@@ -39,6 +39,7 @@ Carta.prototype.guardarPosicionOriginal = function () {
 Carta.prototype.recuperarPosicionOriginal = function () {
     this.x = this.xoriginal;
     this.y = this.yoriginal;
+
 };
 
 Carta.prototype.generarPosicionX = function () {
@@ -48,3 +49,9 @@ Carta.prototype.generarPosicionY = function (posicion) {
     this.y = ypuntero - (LARGOCARTA / 2) + (DISTFILAS * posicion);
 };
 
+Carta.prototype.guardarPosicionNueva = function (xnueva, ynueva, posicion) {
+    
+    this.y = ynueva + (DISTFILAS * posicion);
+    this.x = xnueva;
+
+}
