@@ -14,16 +14,16 @@ function guardarEnSeleccion(){
 }
 
 function guardarEnJuego() {
-    juego.forEach((colum, index) => {
+    juego.forEach((colum, indexcol) => {
         if(colum.includes(areapuntero)){
-            seleccionar.forEach((carta, index)=> {
+            seleccionar.forEach((carta, indexf)=> {
                 if (areapuntero.numero === undefined) {
-                    carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, index);
+                    carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, indexf);
                     columnavacia = true;
                 }
-                else carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, index + 1);
+                else carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, indexf + 1);
                 colum.push(carta);
-                ncolum = index;
+                ncolum = indexcol;
             });
             if (columnavacia) {
                 colum.shift();
