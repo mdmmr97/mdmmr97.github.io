@@ -1,5 +1,6 @@
 let ncolum;
 let cartavacia;
+let columnavacia = false;
 
 function guardarEnSeleccion(){
     let selec;
@@ -15,11 +16,19 @@ function guardarEnSeleccion(){
 function guardarEnJuego() {
     juego.forEach((colum, index) => {
         if(colum.includes(areapuntero)){
-            seleccionar.forEach(carta => {
-                carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, seleccionar.indexOf(carta) + 1)
+            seleccionar.forEach((carta, index)=> {
+                if (areapuntero.numero === undefined) {
+                    carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, index);
+                    columnavacia = true;
+                }
+                else carta.guardarPosicionNueva(areapuntero.x, areapuntero.y, index + 1);
                 colum.push(carta);
                 ncolum = index;
             });
+            if (columnavacia) {
+                colum.shift();
+                columnavacia = false;
+            }
         }
     })
 }
@@ -56,11 +65,12 @@ function borrarCartaJuego() {
 
 function borrarCartaSelect() {
     seleccionar.splice(0, seleccionar.length);
+    areapuntero = undefined;
 }
 
 function borrarCartaReserva() {
-    reserva_monton.forEach(monton => {
-        if(monton.includes(seleccionar[0])){
+    reserva_monton.forEach((monton, index) => {
+        if(monton.carta === seleccionar[0]){
             monton.carta = undefined;
             origencarta = undefined;
         }
@@ -77,14 +87,12 @@ function seleccionarCarta(){
 
     switch (tipomovimiento) {
         case TIPORESERVA:
-            borrarCartaSelect();
             if (areapuntero.carta !== undefined){
                 areapuntero.carta.guardarPosicionOriginal();
                 seleccionar[0] = areapuntero.carta;
             }
         break;
         case TIPOJUEGO:
-            borrarCartaSelect()
             seleccionar = guardarEnSeleccion();
             if (seleccionar.length === 1) seleccionar.forEach(carta => {carta.guardarPosicionOriginal()});
             else {
