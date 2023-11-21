@@ -70,7 +70,7 @@ function borrarCartaSelect() {
 
 function borrarCartaReserva() {
     reserva_monton.forEach((monton, index) => {
-        if(monton.carta === seleccionar[0]){
+        if(monton.carta === seleccionar[0] && index < COLUMNASRESERVA_MONTON/2){
             monton.carta = undefined;
             origencarta = undefined;
         }
@@ -160,6 +160,18 @@ function buscarUltimasCartas(tablero){
     return ultimasCartas;
 }
 
+function buscarCartasReserva(reserva) {
+    let cartasreserva =[];
+    let i = 0;
+    for (let r = 0; r < reserva.length; r++) {
+        if (reserva[r].carta !== undefined ) {
+            cartasreserva[i] = reserva[r].carta;
+            i++;
+        }
+    }
+    return cartasreserva;
+}
+
 function terminadoPintar() {
 
     if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
@@ -175,7 +187,8 @@ function guardarEnMazo(){
     reserva_monton.forEach(monton => {
         if (monton === montondestino) {
             monton.carta = seleccionar[0];
-            borrarCartaJuego();
+            if(origencarta === TIPOJUEGO) borrarCartaJuego();
+            if(origencarta === TIPORESERVA) borrarCartaReserva();
             borrarCartaSelect();
         }
     })

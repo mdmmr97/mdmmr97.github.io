@@ -36,12 +36,13 @@ window.onload = function() {
         }
 
         if (!pintando && tipomovimiento === TIPOMONTON){
-            if(comprobarMoverAMazo(buscarUltimasCartas(juego), reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length))) {
-                pintando = true;
-                /*removeEventListener("mousedown");
-                removeEventListener("mousemove");
-                removeEventListener("mouseup");*/
-            }
+            if(comprobarMoverAMazo(buscarUltimasCartas(juego), 
+                                   reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
+                                   TIPOJUEGO)) pintando = true;
+
+            if(!pintando && comprobarMoverAMazo(buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)), 
+                                                reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
+                                                TIPORESERVA)) pintando = true;
         }
         if (pintando && tipomovimiento === TIPOMONTON) {
             moverCarta();

@@ -71,16 +71,20 @@ function comprobarMoverAJuego() {
     });
 }
 
-function comprobarMoverAMazo(disponiblesmover, monton) {
-    for (let d = 0; d < disponiblesmover.length; d++){
-        for (let m = 0; m < monton.length; m++) {
-            if (comprobarNumCarta(disponiblesmover[d], monton[m].carta, TIPOMONTON) && 
-                comprobarPaloCarta(disponiblesmover[d], monton[m].palo)) {
-                
-                montondestino = monton[m];
-                seleccionar[0] = disponiblesmover[d];
+function comprobarMoverAMazo(disponiblesmover, monton, lugarorigen) {
+    if (disponiblesmover !== undefined){
+        for (let d = 0; d < disponiblesmover.length; d++){
+            for (let m = 0; m < monton.length; m++) {
+                if (comprobarNumCarta(disponiblesmover[d], monton[m].carta, TIPOMONTON) && 
+                    comprobarPaloCarta(disponiblesmover[d], monton[m].palo)) {
+                    
+                    montondestino = monton[m];
+                    seleccionar[0] = disponiblesmover[d];
+                    if (lugarorigen === TIPOJUEGO) origencarta = TIPOJUEGO;
+                    if (lugarorigen === TIPORESERVA) origencarta = TIPORESERVA;
 
-                return true;
+                    return true;
+                }
             }
         }
     }
