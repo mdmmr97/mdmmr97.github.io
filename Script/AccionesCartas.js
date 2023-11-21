@@ -1,4 +1,5 @@
 let ncolum;
+let cartavacia;
 
 function guardarEnSeleccion(){
     let selec;
@@ -33,10 +34,21 @@ function guardarEnReserva() {
     })
 }
 
+function crearCartaVacia () {
+    cartavacia = new Carta();
+    cartavacia.x = seleccionar[0].xoriginal;
+    cartavacia.y = seleccionar[0].yoriginal;
+}
+
 function borrarCartaJuego() {
     juego.forEach((colum, index) => {
         if(colum.includes(seleccionar[0]) && index != ncolum){
+            if (colum.length - 1 === 0) crearCartaVacia();  //pasar colum[0]
             colum.splice(colum.indexOf(seleccionar[0]), colum.length);
+            if (cartavacia !== undefined) {
+                colum.push(cartavacia);
+                cartavacia = undefined;
+            }
             origencarta = undefined;
         }
     })

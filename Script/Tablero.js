@@ -26,7 +26,7 @@ window.onload = function() {
         
         for (let c = 0; c < juego.length; c++){
             for (let f = 0; f < juego[c].length; f++){
-                if (juego[c][f] !== undefined) pintarCarta (juego[c][f])
+                if (juego[c][f].numero !== undefined) pintarCarta (juego[c][f])
             }
         }
         if (seleccionar !== undefined){

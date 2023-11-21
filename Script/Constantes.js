@@ -71,7 +71,7 @@ const DISTCOLUMNAS = 108;
 
 /* ----- TABLERO -----*/
 
-const ALTOTABLERO = 634;
+const ALTOTABLERO = 900;
 const ANCHOTABLERO = 1024;
 const COLUMNASRESERVA_MONTON = 8;
 

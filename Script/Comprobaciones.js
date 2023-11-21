@@ -13,7 +13,7 @@ function comprobarDestinoVacio (cartadestino) {return cartadestino === undefined
 
 function comprobarNumCarta(cartamover, cartadestino, destino) {
     
-    if (comprobarDestinoVacio (cartadestino)) {
+    if (comprobarDestinoVacio (cartadestino) || cartadestino.numero === undefined) {
         if (cartamover.numero === 1 && destino === TIPOMONTON)  return true;
         if (destino === TIPOJUEGO || destino === TIPORESERVA) return true;
     }
@@ -26,7 +26,9 @@ function comprobarNumCarta(cartamover, cartadestino, destino) {
 
 function comprobarPaloCarta(cartamover, palodestino) {return cartamover.palo === palodestino ? true : false}
 
-function comprobarColorCarta(cartamover, cartadestino) {return cartamover.color !== cartadestino.color ? true : false}
+function comprobarColorCarta(cartamover, cartadestino) {
+    return cartamover.color !== cartadestino.color || cartadestino.color === undefined ? true : false
+}
 
 function comprobarPunteroEnReserva(reserva) {
     return reserva.some(nreserva => {
