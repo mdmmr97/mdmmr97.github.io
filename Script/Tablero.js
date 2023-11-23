@@ -2,6 +2,7 @@ window.onload = function() {
     let canvas, ctx, imagen, id1;
 
     let pintando = false;
+    let finalizarjuego = false;
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa con todos los comecocos (Sprite)
@@ -29,6 +30,7 @@ window.onload = function() {
                 if (juego[c][f].numero !== undefined) pintarCarta (juego[c][f])
             }
         }
+
         if (seleccionar !== undefined){
             for (let s = 0; s < seleccionar.length; s++){
                 if (seleccionar[s] !== undefined) pintarCarta (seleccionar[s])
@@ -43,13 +45,43 @@ window.onload = function() {
                                                 reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
                                                 TIPORESERVA)) pintando = true;
         }
+
         if (pintando && tipomovimiento === TIPOMONTON) {
+            canvas.removeEventListener("mousedown", function(e) {
+                obtenerPosicionPuntero(e);
+                if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
+        
+                    seleccionarCarta();
+                    if (seleccionar.length > 0) pintando = true;
+                    else tipomovimiento = TIPOMONTON;
+                }
+        
+            });
+            canvas.removeEventListener("mousemove", function(e) {
+                if (pintando) {
+                    obtenerPosicionPuntero(e);
+                    moverCarta();
+                    pintaTablero();
+                }
+            });
+            canvas.removeEventListener("mouseup",  function(e) {
+                if (pintando) {
+                    obtenerPosicionPuntero(e);
+                    moverCarta();
+                    pintaTablero();
+                }
+            });
+
             moverCarta();
+
             if (terminadoPintar()) pintando = false;
-            console.log("hola");
         }
+
+        if(finalizarjuego) {clearInterval(id1); console.log("juego finalizado");}
         //Cantidad cartas en juego -> restrincion movimientos 1 -> moverultimas y la que se mueve en la fila arriba no sea la misma que el destino
-        if (ncartas === 0 ) clearInterval(id1);
+        if (ncartas === 0 ) {
+            finalizarjuego = true;
+        }
 
 	}
 
@@ -78,7 +110,6 @@ window.onload = function() {
             moverCarta();
             pintaTablero();
         }
-        
     });	
     canvas.addEventListener("mouseup", function(e) {
         if (pintando){
@@ -102,9 +133,4 @@ window.onload = function() {
     crearReservaMonton();
 
     id1= setInterval(pintaTablero, 1000/50);
-/*
-
-canvas.addEventListener("mouseup", function() {
-  isDragging = false;
-});*/
 }

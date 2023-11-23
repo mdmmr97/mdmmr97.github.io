@@ -18,8 +18,8 @@ function comprobarNumCarta(cartamover, cartadestino, destino) {
         if (destino === TIPOJUEGO || destino === TIPORESERVA) return true;
     }
     else {
-        if (cartamover.numero === cartadestino.numero + 1 && destino === TIPOMONTON) return true;
-        if (cartamover.numero === cartadestino.numero - 1 && destino === TIPOJUEGO) return true;
+            if (cartamover.numero === cartadestino.numero + 1 && destino === TIPOMONTON) return true;
+            if (cartamover.numero === cartadestino.numero - 1 && destino === TIPOJUEGO) return true;
     } 
     return false;
 }
@@ -45,8 +45,7 @@ function comprobarPunteroEnReserva(reserva) {
 function comprobarPunteroEnCarta () {
     return juego.some(columna => {
         return columna.some(fila => {
-            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false) &&
-                fila !== areapuntero) {
+            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
                 areapuntero = fila;
                 if (origencarta === undefined) origencarta = TIPOJUEGO; 
                 tipomovimiento = TIPOJUEGO;
@@ -60,13 +59,13 @@ function comprobarPunteroEnCarta () {
 function comprobarMoverAJuego() {
     return juego.some(columna => {
         if (columna.includes(areapuntero)){
-            if (comprobarNumCarta(seleccionar[0], areapuntero, TIPOJUEGO) || 
+            if (comprobarNumCarta(seleccionar[0], areapuntero, TIPOJUEGO) && 
                 comprobarColorCarta(seleccionar[0], areapuntero) && 
                 columna.indexOf(areapuntero) === columna.length - 1)
             {
                 return true;
             }
-            else return false;
+            return false;
         }
     });
 }
@@ -80,6 +79,7 @@ function comprobarMoverAMazo(disponiblesmover, monton, lugarorigen) {
                     
                     montondestino = monton[m];
                     seleccionar[0] = disponiblesmover[d];
+                    seleccionar[0].guardarPosicionOriginal();
                     if (lugarorigen === TIPOJUEGO) origencarta = TIPOJUEGO;
                     if (lugarorigen === TIPORESERVA) origencarta = TIPORESERVA;
 
