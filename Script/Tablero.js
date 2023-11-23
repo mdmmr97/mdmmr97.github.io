@@ -37,9 +37,8 @@ window.onload = function() {
 
         if (!pintando && tipomovimiento === TIPOMONTON){
             if(comprobarMoverAMazo(buscarUltimasCartas(juego), 
-                                   reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
+                                   reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length),
                                    TIPOJUEGO)) pintando = true;
-
             if(!pintando && comprobarMoverAMazo(buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)), 
                                                 reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
                                                 TIPORESERVA)) pintando = true;
@@ -47,6 +46,7 @@ window.onload = function() {
         if (pintando && tipomovimiento === TIPOMONTON) {
             moverCarta();
             if (terminadoPintar()) pintando = false;
+            console.log("hola");
         }
         //Cantidad cartas en juego -> restrincion movimientos 1 -> moverultimas y la que se mueve en la fila arriba no sea la misma que el destino
         if (ncartas === 0 ) clearInterval(id1);
