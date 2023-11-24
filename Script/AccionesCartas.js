@@ -1,6 +1,26 @@
 let cartavacia;
 let columnavacia = false;
 
+/* ----- HISTORIAL ----- */
+function guardarEnHistorial() {
+    let captura = new Historial();
+    captura.guardarJuego();
+    captura.guardarReservaMonton();
+    captura.guardarNCartas();
+    captura.guardarRestrincion();
+
+    historial.push(captura);
+}
+
+function borrarMovimiento() {
+    juego = historial[historial.length-2].recuperarJuego();
+    reserva_monton = historial[historial.length-2].recuperarReservaMonton();
+    ncartas = historial[historial.length-2].recuperarNCartas();
+    restrincion = historial[historial.length-2].recuperarRestrincion();
+    historial.splice(historial.length-1,historial.length);
+}
+
+/* ----- GESTION CARTAS ----- */
 function guardarEnSeleccion(){
     let selec;
     juego.some(colum => {
@@ -152,6 +172,7 @@ function dejarCarta(){
             if (comprobarMoverAReserva()){
                 guardarEnReserva(areapuntero.x);
                 borrarCartaSelect();
+                guardarEnHistorial();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -162,6 +183,7 @@ function dejarCarta(){
             if (comprobarMoverAJuego()){
                 guardarEnJuego(areapuntero);
                 borrarCartaSelect();
+                guardarEnHistorial();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -173,15 +195,14 @@ function dejarCarta(){
 
 /* ----- AUTO ----- */
 
-function buscarUltimasCartas(tablero){
-    for (let u = 0; u < tablero.length; u++) {
-        ultimasCartas[u] = tablero[u][tablero[u].length-1];
+function buscarUltimasCartas(){
+    for (let u = 0; u < juego.length; u++) {
+        ultimasCartas[u] = juego[u][juego[u].length-1];
     }
-    return ultimasCartas;
+    //return ultimasCartas;
 }
 
 function buscarCartasReserva(reserva) {
-    let cartasreserva = [];
     let i = 0;
     for (let r = 0; r < reserva.length; r++) {
         if (reserva[r].carta !== undefined ) {
@@ -189,13 +210,13 @@ function buscarCartasReserva(reserva) {
             i++;
         }
     }
-    return cartasreserva;
 }
 
 function terminadoPintar() {
     if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
         guardarEnMazo();
         ncartas--;
+        guardarEnHistorial();
         console.log(ncartas);
         return true;
     } 
@@ -214,4 +235,12 @@ function guardarEnMazo(){
         return false;
     })
 
+}
+
+/* ----- FINALIZAR JUEGO ----- */
+function terminarJuego() {
+    if (restrincion === 1){
+        if(comprobarMovimientosDesdeReserva() && comprobarMovimientosDesdeJuego()) return true;
+    }
+    else false;
 }

@@ -3,6 +3,9 @@ window.onload = function() {
 
     let pintando = false;
     let finalizarjuego = false;
+
+    canvas = document.getElementById("miCanvas");
+    ctx = canvas.getContext("2d");
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa con todos los comecocos (Sprite)
@@ -21,27 +24,30 @@ window.onload = function() {
 		
 		ctx.clearRect(0, 0, ANCHOTABLERO, ALTOTABLERO);
 
-        for (let r = 0; r < reserva_monton.length; r++){
-            if (reserva_monton[r].carta !== undefined) pintarCarta (reserva_monton[r].carta);
-        }
-        
-        for (let c = 0; c < juego.length; c++){
-            for (let f = 0; f < juego[c].length; f++){
-                if (juego[c][f].numero !== undefined) pintarCarta (juego[c][f])
-            }
-        }
+        console.log(historial);
+
+        reserva_monton.forEach(espacio => {
+            if (espacio.carta !== undefined) pintarCarta (espacio.carta);
+        })
+
+        juego.forEach(columna => {
+            columna.forEach(fila => {
+                if(fila.numero != undefined) pintarCarta(fila)
+            })
+        })
 
         if (seleccionar !== undefined){
-            for (let s = 0; s < seleccionar.length; s++){
-                if (seleccionar[s] !== undefined) pintarCarta (seleccionar[s])
-            }
+            seleccionar.forEach(carta => {if (carta !== undefined) pintarCarta (carta)})
         }
 
+        buscarUltimasCartas();
+        buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
+
         if (!pintando && tipomovimiento === TIPOMONTON){
-            if(comprobarMoverAMazo(buscarUltimasCartas(juego), 
+            if(comprobarMoverAMazo(ultimasCartas, 
                                    reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length),
                                    TIPOJUEGO)) pintando = true;
-            if(!pintando && comprobarMoverAMazo(buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)), 
+            if(!pintando && comprobarMoverAMazo(cartasreserva, 
                                                 reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
                                                 TIPORESERVA)) pintando = true;
         }
@@ -79,7 +85,7 @@ window.onload = function() {
 
         if(finalizarjuego) {clearInterval(id1); console.log("juego finalizado");}
         //Cantidad cartas en juego -> restrincion movimientos 1 -> moverultimas y la que se mueve en la fila arriba no sea la misma que el destino
-        if (ncartas === 0 ) {
+        if (ncartas === 0 || terminarJuego()) {
             finalizarjuego = true;
         }
 
@@ -90,9 +96,6 @@ window.onload = function() {
         xpuntero = e.clientX - areacarta.left;
         ypuntero = e.clientY - areacarta.top;
     }
-
-    canvas = document.getElementById("miCanvas");
-    ctx = canvas.getContext("2d");
     
     canvas.addEventListener("mousedown", function(e) {
         obtenerPosicionPuntero(e);
@@ -131,6 +134,8 @@ window.onload = function() {
     
     crearJuego();
     crearReservaMonton();
+
+    if(historial !== undefined) guardarEnHistorial();
 
     id1= setInterval(pintaTablero, 1000/50);
 }

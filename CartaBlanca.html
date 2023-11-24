@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENTREGABLE 2 CARTABLANCA</title>
-    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="Styles/CartaBlanca.css" title="style" />
     
     <script src="Script/Constantes.js"></script>
+    <script src="Script/Historial.js"></script>
     <script src="Script/Reserva.js"></script>
     <script src="Script/Monton.js"></script>
     <script src="Script/Carta.js"></script>
@@ -19,7 +20,12 @@
 </head>
     <body>
         <h1>CARTABLANCA</h1>
-        <canvas id="miCanvas" width="1024" height="900
-        "></canvas>
+        <div>
+            <p></p>
+        </div>
+        <canvas id="miCanvas" width="1024" height="800"></canvas>
+        <div>
+            <button type="button" onclick="borrarMovimiento()"><i class="fa-solid fa-rotate-right fa-flip-both" style="color: #000000;"></i></button>
+        </div>
     </body>
 </html>

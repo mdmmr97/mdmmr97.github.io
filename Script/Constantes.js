@@ -95,10 +95,15 @@ const VELOCIDAD = 20;
 /* ----- VARIABLES -----*/
 
 let ncartas = 52;
+let restrincion = 5;
+let historial = [];
 let seleccionar = [];
 let juego = [[]];
 let reserva_monton = [];
+
 let ultimasCartas = [];
+let cartasreserva = [];
+
 let montondestino;
 let tipomovimiento = TIPOMONTON;
 let llegadodestino = false;
@@ -113,4 +118,3 @@ let ypuntero;
 
 let areapuntero;
 let origencarta;
-let restrincion = 5;

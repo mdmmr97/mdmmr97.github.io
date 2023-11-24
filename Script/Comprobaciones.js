@@ -107,3 +107,10 @@ function comprobarMoverSeleccion() {
 
 function comprobarRestrincion() {return seleccionar.length <= restrincion ? true : false;}
 
+function comprobarMovimientosDesdeReserva() {
+    
+}
+
+function comprobarMovimientosDesdeJuego(){
+    
+}
