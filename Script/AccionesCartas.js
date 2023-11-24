@@ -4,8 +4,9 @@ let columnavacia = false;
 /* ----- HISTORIAL ----- */
 function guardarEnHistorial() {
     let captura = new Historial();
-    captura.guardarJuego();
-    captura.guardarReservaMonton();
+    
+    captura.guardarJuego(modificarParaGuardar(juego));
+    captura.guardarReservaMonton(reserva_monton);
     captura.guardarNCartas();
     captura.guardarRestrincion();
 
@@ -172,7 +173,7 @@ function dejarCarta(){
             if (comprobarMoverAReserva()){
                 guardarEnReserva(areapuntero.x);
                 borrarCartaSelect();
-                guardarEnHistorial();
+                //guardarEnHistorial();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -183,7 +184,7 @@ function dejarCarta(){
             if (comprobarMoverAJuego()){
                 guardarEnJuego(areapuntero);
                 borrarCartaSelect();
-                guardarEnHistorial();
+                //guardarEnHistorial();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -199,7 +200,7 @@ function buscarUltimasCartas(){
     for (let u = 0; u < juego.length; u++) {
         ultimasCartas[u] = juego[u][juego[u].length-1];
     }
-    //return ultimasCartas;
+
 }
 
 function buscarCartasReserva(reserva) {
@@ -216,7 +217,7 @@ function terminadoPintar() {
     if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
         guardarEnMazo();
         ncartas--;
-        guardarEnHistorial();
+        //guardarEnHistorial();
         console.log(ncartas);
         return true;
     } 
@@ -230,17 +231,17 @@ function guardarEnMazo(){
             if(origencarta === TIPOJUEGO) borrarCartaJuego();
             if(origencarta === TIPORESERVA) borrarCartaReserva();
             borrarCartaSelect();
+            //guardarEnHistorial();
             return true;
         }
         return false;
     })
-
 }
 
 /* ----- FINALIZAR JUEGO ----- */
 function terminarJuego() {
     if (restrincion === 1){
-        if(comprobarMovimientosDesdeReserva() && comprobarMovimientosDesdeJuego()) return true;
+        if(!comprobarMovimientosDesdeReserva() && !comprobarMovimientosDesdeJuego()) return true;
     }
     else false;
 }

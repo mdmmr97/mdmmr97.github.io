@@ -18,8 +18,8 @@ function comprobarNumCarta(cartamover, cartadestino, destino) {
         if (destino === TIPOJUEGO || destino === TIPORESERVA) return true;
     }
     else {
-            if (cartamover.numero === cartadestino.numero + 1 && destino === TIPOMONTON) return true;
-            if (cartamover.numero === cartadestino.numero - 1 && destino === TIPOJUEGO) return true;
+        if (cartamover.numero === cartadestino.numero + 1 && destino === TIPOMONTON) return true;
+        if (cartamover.numero === cartadestino.numero - 1 && destino === TIPOJUEGO) return true;
     } 
     return false;
 }
@@ -108,9 +108,38 @@ function comprobarMoverSeleccion() {
 function comprobarRestrincion() {return seleccionar.length <= restrincion ? true : false;}
 
 function comprobarMovimientosDesdeReserva() {
-    
+    return cartasreserva.some(cartare => {
+        return ultimasCartas.some(cartatab => {
+            return comprobarNumCarta(cartare, cartatab, TIPOJUEGO) && comprobarColorCarta(cartare, cartatab) ?  true : false;
+        });
+    });
 }
 
 function comprobarMovimientosDesdeJuego(){
-    
+    let cartamovimiento = [];
+    let masc = 0;
+    for (let i = 0; i < ultimasCartas.length; i++) {
+        for (let j = 0; j < ultimasCartas.length; j++) {
+           if (comprobarNumCarta(ultimasCartas[i], ultimasCartas[j], TIPOJUEGO) && 
+               comprobarColorCarta(ultimasCartas[i], ultimasCartas[j]) && i !== j){
+                cartamovimiento[masc] = [ultimasCartas[i],[ultimasCartas[j]]];
+                masc++;
+            } 
+        }
+    }
+    if (cartamovimiento.length === 0) return false;
+    if (cartamovimiento.length === 1){
+        let filac;
+        let columc;
+        juego.some(fila => {
+            if (fila.includes(cartamovimiento[0][0])){
+                filac = fila.length-2;
+                columc = juego.indexOf(fila);
+                return true;
+            }
+            return false;
+        })
+        if(juego[columc][filac] === cartamovimiento[0][1]) return false;
+    }
+    return true;
 }

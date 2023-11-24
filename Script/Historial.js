@@ -5,8 +5,8 @@ function Historial() {
     let restrinciontablero
 }
 
-Historial.prototype.guardarJuego = function() {this.estadojuego = juego;};
-Historial.prototype.guardarReservaMonton = function() {this.estadoreservamonton = reserva_monton;};
+Historial.prototype.guardarJuego = function(copiajuego) {this.estadojuego = copiajuego;};
+Historial.prototype.guardarReservaMonton = function(copiareserva) {this.estadoreservamonton = copiareserva;};
 Historial.prototype.guardarNCartas = function() {this.ncartastablero = ncartas;};
 Historial.prototype.guardarRestrincion = function() {this.restrinciontablero = restrincion;};
 
