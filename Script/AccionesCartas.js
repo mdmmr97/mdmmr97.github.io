@@ -1,12 +1,12 @@
 let cartavacia;
+let captura
 let columnavacia = false;
 
 /* ----- HISTORIAL ----- */
 function guardarEnHistorial() {
-    let captura = new Historial();
-    
-    captura.guardarJuego(modificarParaGuardar(juego));
-    captura.guardarReservaMonton(reserva_monton);
+    captura = new Historial();
+    captura.guardarJuego();
+    captura.guardarReservaMonton();
     captura.guardarNCartas();
     captura.guardarRestrincion();
 
@@ -14,11 +14,13 @@ function guardarEnHistorial() {
 }
 
 function borrarMovimiento() {
-    juego = historial[historial.length-2].recuperarJuego();
-    reserva_monton = historial[historial.length-2].recuperarReservaMonton();
-    ncartas = historial[historial.length-2].recuperarNCartas();
-    restrincion = historial[historial.length-2].recuperarRestrincion();
-    historial.splice(historial.length-1,historial.length);
+    historial.pop();
+
+    captura = historial[historial.length-1];
+    juego = captura.recuperarJuego();
+    reserva_monton = captura.recuperarReservaMonton();
+    ncartas = captura.recuperarNCartas();
+    restrincion = captura.recuperarRestrincion();
 }
 
 /* ----- GESTION CARTAS ----- */
@@ -243,5 +245,5 @@ function terminarJuego() {
     if (restrincion === 1){
         if(!comprobarMovimientosDesdeReserva() && !comprobarMovimientosDesdeJuego()) return true;
     }
-    else false;
+    return false;
 }

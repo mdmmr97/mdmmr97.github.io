@@ -1,5 +1,16 @@
 #miCanvas { 
-    background-image: url("../Imagenes/FondoTablero.png");
-    border: solid 1px #ccc; 
-    margin: 20px; 
+    background-image: url("../Imagenes/FondoTablero.png"); 
+    margin: 0 20px; 
+}
+
+#tiempo{
+    margin-bottom: 0;
+    margin-left: 20px;
+    background-color: grey;
+    width: 1024px;
+    height: 50px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

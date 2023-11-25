@@ -53,5 +53,4 @@ Carta.prototype.guardarPosicionNueva = function (xnueva, ynueva, posicion) {
     
     this.y = ynueva + (DISTFILAS * posicion);
     this.x = xnueva;
-
-}
+};

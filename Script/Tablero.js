@@ -1,11 +1,11 @@
 window.onload = function() {
-    let canvas, ctx, imagen, id1;
-
+    let canvas, ctx, contador, imagen, id1;
     let pintando = false;
-    let finalizarjuego = false;
 
     canvas = document.getElementById("miCanvas");
     ctx = canvas.getContext("2d");
+
+    contador = document.getElementById("tiempo"); 
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa Sprite
@@ -61,17 +61,12 @@ window.onload = function() {
         buscarUltimasCartas();
         buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
 
-        if(finalizarjuego && !pintando) {
-            
-            clearInterval(id1); 
-            console.log("juego finalizado");
-        }
-
         if (ncartas === 0 || terminarJuego()) {
+
             canvas.removeEventListener("mousedown", pulsarCartaRaton);
             canvas.removeEventListener("mousemove", moverCartaRaton);	
             canvas.removeEventListener("mouseup", dejarCartaRaton);
-            setTimeout(function() {finalizarjuego = true;}, 1000);
+            setTimeout(finalizarjuego, 500);
         }
 	}
 
@@ -127,4 +122,22 @@ window.onload = function() {
     //if(historial !== undefined) guardarEnHistorial();
 
     id1= setInterval(pintaTablero, 1000/50);
+    function actualizarcontador() {
+        let tiempoactual = Date.now();
+        let tiempopasado = Math.floor((tiempoactual-iniciarContador)/1000);
+        let min = Math.floor(tiempopasado / 60);
+        let seg = tiempopasado % 60;
+
+        let formatoseg = seg < 10 ? "0" + seg : seg;
+        contador.textContent = min + ":" + formatoseg;
+    }
+
+    let iniciarContador = Date.now(); 
+    id2 = setInterval(actualizarcontador, 1000);
+
+    function finalizarjuego() {
+        clearInterval(id1); 
+        clearInterval(id2);
+        console.log("juego finalizado");
+    }
 }
