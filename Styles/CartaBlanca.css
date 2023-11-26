@@ -21,3 +21,15 @@
     justify-content: center;
     align-items: center;
 }
+
+.mostrar {
+    width: 100%;
+    display: flex;
+}
+.canvas{
+    width: 60%;
+}
+
+.demascosas{
+    width: 40%;
+}

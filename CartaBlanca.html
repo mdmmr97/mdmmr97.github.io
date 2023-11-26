@@ -27,19 +27,30 @@
         <audio id="dejarcarta" src="Sonido/DejarCarta.mp3"></audio>
         <audio id="dejarmazo" src="Sonido/Enmazo.mp3"></audio>
         <h1>CARTABLANCA</h1>
-        <div class="cabecera">
-            <div><p id="maxcartas"></p></div>
-            <div><p id="tiempo"></p></div>
-            <div><p id="cartastotal"></p></div>
-        </div>
-        <canvas id="miCanvas" width="1024" height="800"></canvas>
-        <div>
-            <button type="button" onclick="borrarMovimiento()"><i class="fa-solid fa-rotate-right fa-flip-both" style="color: #000000;"></i></button>
-        </div>
-        <div>
-            <table>
-                
-            </table>
+        <div class="mostrar">
+            <div class="canvas">
+                <div class="cabecera">
+                    <div><p id="maxcartas"></p></div>
+                    <div><p id="tiempo"></p></div>
+                    <div><p id="cartastotal"></p></div>
+                </div>
+                <canvas id="miCanvas" width="1024" height="800"></canvas>
+            </div>
+            <div class="demascosas">
+                <div>
+                    <button type="button" id="nuevojuego">Empezar Partida</button>
+                </div>
+                <div>
+                    <button type="button" onclick="borrarMovimiento()"><i class="fa-solid fa-rotate-right fa-flip-both" style="color: #000000;"></i></button>
+                </div>
+                <div>
+                    <table></table>
+                    <textarea id="areaL" cols="40" rows="5" placeholder="Mejores Tiempos"></textarea>
+                    <div id ="Botonera">
+                        <input id="boton" type="button" value="Resetear"/>
+                    </div>
+                </div> 
+            </div>
         </div>
     </body>
 </html>

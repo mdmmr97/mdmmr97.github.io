@@ -1,7 +1,6 @@
 window.onload = function() {
-    let canvas, ctx, mostrarncartas, contador, mostrarrestrincion, imagen, id1, id2, resuelto;
+    let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion, imagen, id1, id2, resuelto;
     let pintando = false;
-
 
     canvas = document.getElementById("miCanvas");
     ctx = canvas.getContext("2d");
@@ -19,6 +18,10 @@ window.onload = function() {
     musicaperdido.volume = 0.35;
     let musicamazo = document.getElementById("dejarmazo");
     musicamazo.volume = 0.5;
+
+    document.getElementById("areaL").value = recuperarDatoLocal();
+    document.getElementById("boton").onclick = resetearDatos;
+    document.getElementById("areaL").disabled = true;
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa Sprite
@@ -151,17 +154,23 @@ window.onload = function() {
     imagen = new Image();
     imagen.src = "Imagenes/Baraja.png";
     darImagen(imagen);
-    
-    crearJuego();
-    crearReservaMonton();
 
+    let iniciar = document.getElementById("nuevojuego")
+    iniciar.onclick = iniciarJuego;
+    
+    function iniciarJuego() {
+        crearJuego();
+        crearReservaMonton();
+        id1= setInterval(pintaTablero, 1000/50);
+
+        iniciarContador = Date.now(); 
+        id2 = setInterval(actualizarBarra, 1000);
+        iniciar.disabled = true;
+    }
     //if(historial !== undefined) guardarEnHistorial();
-
-    id1= setInterval(pintaTablero, 1000/50);
-    
     function actualizarBarra() {
         let tiempoactual = Date.now();
-        let tiempopasado = Math.floor((tiempoactual-iniciarContador)/1000);
+        tiempopasado = Math.floor((tiempoactual-iniciarContador)/1000);
         let min = Math.floor(tiempopasado / 60);
         let seg = tiempopasado % 60;
 
@@ -169,15 +178,33 @@ window.onload = function() {
         contador.textContent = min + ":" + formatoseg;
         musicafondo.play();
     }
-    let iniciarContador = Date.now(); 
-    id2 = setInterval(actualizarBarra, 1000);
-
+    
     function finalizarjuego() {
         clearInterval(id1); 
         clearInterval(id2);
         musicafondo.pause();
         console.log("juego finalizado");
-        resuelto ? musicavictoria.play() : musicaperdido.play()
+        iniciar.disabled = false;
+        if (resuelto) {
+            musicavictoria.play();
+            
+        }
+        else musicaperdido.play();
+        guardarResultado(contador.textContent);
+    }
 
+    function guardarResultado(tiempo) {
+
+        localStorage.setItem("area", document.getElementById("areaL").value + "player0 "+ "| tiempo " + tiempo + "\n");
+        document.getElementById("areaL").value = recuperarDatoLocal();
+    }
+    
+    function recuperarDatoLocal() {		
+        return localStorage.getItem("area");		
+    }
+
+    function resetearDatos() {
+        // Elimina el item de almacenamiento "area"
+        localStorage.removeItem("area");		
     }
 }
