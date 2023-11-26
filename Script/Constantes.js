@@ -108,11 +108,6 @@ let montondestino;
 let tipomovimiento = TIPOMONTON;
 let llegadodestino = false;
 
-let audioseleccionar;
-let audiomover;
-let audiodestino;
-let audiomazo;
-
 let xpuntero;
 let ypuntero;
 

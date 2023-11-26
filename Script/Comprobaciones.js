@@ -80,8 +80,8 @@ function comprobarMoverAMazo(disponiblesmover, monton, lugarorigen) {
                     montondestino = monton[m];
                     seleccionar[0] = disponiblesmover[d];
                     seleccionar[0].guardarPosicionOriginal();
-                    if (lugarorigen === TIPOJUEGO) origencarta = TIPOJUEGO;
-                    if (lugarorigen === TIPORESERVA) origencarta = TIPORESERVA;
+                    if (lugarorigen === TIPOJUEGO) borrarCartaJuego();
+                    if (lugarorigen === TIPORESERVA) borrarCartaReserva();
 
                     return true;
                 }
@@ -122,24 +122,30 @@ function comprobarMovimientosDesdeJuego(){
         for (let j = 0; j < ultimasCartas.length; j++) {
            if (comprobarNumCarta(ultimasCartas[i], ultimasCartas[j], TIPOJUEGO) && 
                comprobarColorCarta(ultimasCartas[i], ultimasCartas[j]) && i !== j){
-                cartamovimiento[masc] = [ultimasCartas[i],[ultimasCartas[j]]];
+                cartamovimiento[masc] = [ultimasCartas[i], ultimasCartas[j], true];
                 masc++;
             } 
         }
     }
     if (cartamovimiento.length === 0) return false;
-    if (cartamovimiento.length === 1){
-        let filac;
-        let columc;
-        juego.some(fila => {
-            if (fila.includes(cartamovimiento[0][0])){
-                filac = fila.length-2;
-                columc = juego.indexOf(fila);
-                return true;
-            }
-            return false;
+    else {
+        cartamovimiento.forEach(comprobacion =>{   
+            let filac;
+            let columc;
+            juego.some(fila => {
+                if (fila.includes(comprobacion[0])){
+                    filac = fila.length-2;
+                    columc = juego.indexOf(fila);
+                    return true;
+                }
+                return false;
+            })
+            if(juego[columc][filac] === undefined || 
+               juego[columc][filac].numero !== comprobacion[1].numero ||
+               juego[columc][filac].color !== comprobacion[1].color) comprobacion[2] = false;
         })
-        if(juego[columc][filac] === cartamovimiento[0][1]) return false;
     }
-    return true;
+    return cartamovimiento.some(mismotipo =>{
+        return !mismotipo[2] ? true : false;
+    })
 }

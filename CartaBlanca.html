@@ -15,14 +15,22 @@
     <script src="Script/CrearTablero.js"></script>
     <script src="Script/Comprobaciones.js"></script>
     <script src="Script/AccionesCartas.js"></script>
-    <script src="Script/Tablero.js"></script>
     <script src="Script/LocalStore.js"></script>
-
+    <script src="Script/Tablero.js"></script>
+    
 </head>
     <body>
+        <audio id="musicafondo" src="Sonido/rain-and-nostalgia-version-60s-10820.mp3" loop></audio>
+        <audio id="ganar" src="Sonido/Ganar.mp3"></audio>
+        <audio id="perder" src="Sonido/Perdido.mp3"></audio>
+        <audio id="cogercarta" src="Sonido/CogerCarta.mp3"></audio>
+        <audio id="dejarcarta" src="Sonido/DejarCarta.mp3"></audio>
+        <audio id="dejarmazo" src="Sonido/Enmazo.mp3"></audio>
         <h1>CARTABLANCA</h1>
-        <div>
-            <p id="tiempo"></p>
+        <div class="cabecera">
+            <div><p id="maxcartas"></p></div>
+            <div><p id="tiempo"></p></div>
+            <div><p id="cartastotal"></p></div>
         </div>
         <canvas id="miCanvas" width="1024" height="800"></canvas>
         <div>

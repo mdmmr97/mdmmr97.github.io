@@ -3,12 +3,19 @@
     margin: 0 20px; 
 }
 
-#tiempo{
+.cabecera{
     margin-bottom: 0;
     margin-left: 20px;
     background-color: grey;
     width: 1024px;
     height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#tiempo, #cartastotal, #maxcartas{
+    
     font-size: 30px;
     display: flex;
     justify-content: center;

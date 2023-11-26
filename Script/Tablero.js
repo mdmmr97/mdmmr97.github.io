@@ -1,11 +1,24 @@
 window.onload = function() {
-    let canvas, ctx, contador, imagen, id1;
+    let canvas, ctx, mostrarncartas, contador, mostrarrestrincion, imagen, id1, id2, resuelto;
     let pintando = false;
+
 
     canvas = document.getElementById("miCanvas");
     ctx = canvas.getContext("2d");
 
+    mostrarrestrincion = document.getElementById("maxcartas");
     contador = document.getElementById("tiempo"); 
+    mostrarncartas = document.getElementById("cartastotal");
+
+    let musicafondo = document.getElementById("musicafondo");
+    musicafondo.volume = 0.1;
+    let audioseleccionar = document.getElementById("cogercarta");
+    let audiodejar = document.getElementById("dejarcarta");
+    let musicavictoria = document.getElementById("ganar");
+    let musicaperdido = document.getElementById("perder");
+    musicaperdido.volume = 0.35;
+    let musicamazo = document.getElementById("dejarmazo");
+    musicamazo.volume = 0.5;
     
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa Sprite
@@ -54,14 +67,33 @@ window.onload = function() {
 
         if (pintando && tipomovimiento === TIPOMONTON) {
 
+            canvas.removeEventListener("mousedown", pulsarCartaRaton);
+            canvas.removeEventListener("mousemove", moverCartaRaton);	
+            canvas.removeEventListener("mouseup", dejarCartaRaton);
+
             moverCarta();
-            if (terminadoPintar()) pintando = false;
+
+            if (terminadoPintar()) {
+                pintando = false;
+                musicamazo.play();
+                musicamazo.currentTime = 0;
+                setTimeout(() => {
+                    canvas.addEventListener("mousedown", pulsarCartaRaton);
+                    canvas.addEventListener("mousemove", moverCartaRaton);	
+                    canvas.addEventListener("mouseup", dejarCartaRaton);
+                }, 500)
+            }
         }
 
         buscarUltimasCartas();
         buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
+        mostrarncartas.textContent = "Total: " + ncartas;
+        mostrarrestrincion.textContent = "Max Mover: " + restrincion
 
-        if (ncartas === 0 || terminarJuego()) {
+        if ((ncartas === 0 || terminarJuego()) && !pintando) {
+
+            if (ncartas === 0) resuelto = true;
+            else resuelto = false;
 
             canvas.removeEventListener("mousedown", pulsarCartaRaton);
             canvas.removeEventListener("mousemove", moverCartaRaton);	
@@ -81,7 +113,10 @@ window.onload = function() {
         if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
 
             seleccionarCarta();
-            if (seleccionar.length > 0) pintando = true;
+            if (seleccionar.length > 0) {
+                pintando = true;
+                audioseleccionar.play();
+            }
             else tipomovimiento = TIPOMONTON;
         }
     }
@@ -105,6 +140,7 @@ window.onload = function() {
             }
             pintando = false;
             tipomovimiento = TIPOMONTON;
+            audiodejar.play();
         }
     }
 
@@ -122,7 +158,8 @@ window.onload = function() {
     //if(historial !== undefined) guardarEnHistorial();
 
     id1= setInterval(pintaTablero, 1000/50);
-    function actualizarcontador() {
+    
+    function actualizarBarra() {
         let tiempoactual = Date.now();
         let tiempopasado = Math.floor((tiempoactual-iniciarContador)/1000);
         let min = Math.floor(tiempopasado / 60);
@@ -130,14 +167,17 @@ window.onload = function() {
 
         let formatoseg = seg < 10 ? "0" + seg : seg;
         contador.textContent = min + ":" + formatoseg;
+        musicafondo.play();
     }
-
     let iniciarContador = Date.now(); 
-    id2 = setInterval(actualizarcontador, 1000);
+    id2 = setInterval(actualizarBarra, 1000);
 
     function finalizarjuego() {
         clearInterval(id1); 
         clearInterval(id2);
+        musicafondo.pause();
         console.log("juego finalizado");
+        resuelto ? musicavictoria.play() : musicaperdido.play()
+
     }
 }

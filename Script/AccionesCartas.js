@@ -218,7 +218,6 @@ function buscarCartasReserva(reserva) {
 function terminadoPintar() {
     if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
         guardarEnMazo();
-        ncartas--;
         //guardarEnHistorial();
         console.log(ncartas);
         return true;
@@ -230,9 +229,8 @@ function guardarEnMazo(){
     reserva_monton.some(monton => {
         if (monton === montondestino) {
             monton.carta = seleccionar[0];
-            if(origencarta === TIPOJUEGO) borrarCartaJuego();
-            if(origencarta === TIPORESERVA) borrarCartaReserva();
             borrarCartaSelect();
+            ncartas--;
             //guardarEnHistorial();
             return true;
         }
