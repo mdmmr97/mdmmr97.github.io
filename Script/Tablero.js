@@ -1,6 +1,6 @@
 window.onload = function() {
-    let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion, imagen, id1, id2, resuelto;
-    let pintando = false;
+    let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion;
+    let pintando, id1, id2, resuelto;
 
     canvas = document.getElementById("miCanvas");
     ctx = canvas.getContext("2d");
@@ -23,6 +23,28 @@ window.onload = function() {
     document.getElementById("boton").onclick = resetearDatos;
     document.getElementById("areaL").disabled = true;
     
+    function iniciarVariables() {
+        ncartas = 52;
+        restrincion = 5;
+        imagen = new Image();
+        imagen.src = "Imagenes/Baraja.png";
+        darImagen(imagen);
+
+        historial = [];
+        seleccionar = [];
+        juego = [[]];
+        reserva_monton = [];
+
+        montondestino;
+        ultimasCartas = [];
+        cartasreserva = [];
+
+        tipomovimiento = TIPOMONTON;
+        llegadodestino = false;
+        pintando = false;
+
+    }
+
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa Sprite
                       carta.coordimagen[0], // Posicion X del sprite donde se encuentra la carta que voy a recortar
@@ -159,6 +181,9 @@ window.onload = function() {
     iniciar.onclick = iniciarJuego;
     
     function iniciarJuego() {
+
+        iniciarVariables();
+
         crearJuego();
         crearReservaMonton();
         id1= setInterval(pintaTablero, 1000/50);
@@ -207,4 +232,5 @@ window.onload = function() {
         // Elimina el item de almacenamiento "area"
         localStorage.removeItem("area");		
     }
+
 }

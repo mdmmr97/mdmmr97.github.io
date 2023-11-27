@@ -1,17 +1,33 @@
-let ximagen = 0;
-let yimagen = 0;
+let ximagen;
+let yimagen;
 
-let x = XREPARTO;
-let y = YREPARTO;
+let x;;
+let y;
 let ultimopalo, posicion, carta, limitefila;
-let cambiocolumna = false;
-let columna = 0;
-let fila = 0;
+let cambiocolumna;
+let columna;
+let fila;
 
 let carta_reserva, mazo_monton, xreserva_monton, xtipo;
 
-let numero = 0;
-let baraja = [];
+let numero;
+let baraja;
+
+function iniciarVariablesTablero()
+{
+    ximagen = 0;
+    yimagen = 0;
+
+    x = XREPARTO;
+    y = YREPARTO;
+
+    cambiocolumna = false;
+    columna = 0;
+    fila = 0;
+
+    numero = 0;
+    baraja = [];
+}
 
 function darPalo(i) {
     if (i<13) return 0;
@@ -95,6 +111,7 @@ function mezclarMazo() {
 
 function crearJuego() {
 
+    iniciarVariablesTablero();
     crearBaraja();
 
     baraja.sort(mezclarMazo);

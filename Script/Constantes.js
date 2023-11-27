@@ -94,20 +94,23 @@ const VELOCIDAD = 20;
 
 /* ----- VARIABLES -----*/
 
-let ncartas = 52;
-let restrincion = 5;
-let historial = [];
-let seleccionar = [];
-let juego = [[]];
-let reserva_monton = [];
+let ncartas;
+let restrincion;
+let imagen
 
-let ultimasCartas = [];
-let cartasreserva = [];
+let historial;
+let seleccionar;
+let juego;
+let reserva_monton;
+
+let ultimasCartas;
+let cartasreserva;
+
+
+let tipomovimiento;
+let llegadodestino;
 
 let montondestino;
-let tipomovimiento = TIPOMONTON;
-let llegadodestino = false;
-
 let xpuntero;
 let ypuntero;
 
