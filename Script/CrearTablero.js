@@ -1,7 +1,7 @@
 let ximagen;
 let yimagen;
 
-let x;;
+let x;
 let y;
 let ultimopalo, posicion, carta, limitefila;
 let cambiocolumna;
@@ -21,10 +21,13 @@ function iniciarVariablesTablero()
     x = XREPARTO;
     y = YREPARTO;
 
+    ultimopalo = undefined; posicion = undefined; carta = undefined; limitefila = undefined;
+
     cambiocolumna = false;
     columna = 0;
     fila = 0;
 
+    carta_reserva = undefined; mazo_monton = undefined; xreserva_monton = undefined; xtipo = undefined;
     numero = 0;
     baraja = [];
 }
@@ -98,7 +101,9 @@ function crearBaraja() {
         carta.color = COLOR[darColor()]
         carta.numero = darNumero();
         carta.coordimagen = obtenerCoordImagen(carta.palo);
-
+        carta.xoriginal = 0;
+        carta.yoriginal = 0;
+        
         baraja[i] = carta;
     }
 }
@@ -112,6 +117,7 @@ function mezclarMazo() {
 function crearJuego() {
 
     iniciarVariablesTablero();
+
     crearBaraja();
 
     baraja.sort(mezclarMazo);

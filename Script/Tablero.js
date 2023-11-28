@@ -92,9 +92,9 @@ window.onload = function() {
 
         if (pintando && tipomovimiento === TIPOMONTON) {
 
-            canvas.removeEventListener("mousedown", pulsarCartaRaton);
-            canvas.removeEventListener("mousemove", moverCartaRaton);	
-            canvas.removeEventListener("mouseup", dejarCartaRaton);
+            document.removeEventListener("mousedown", pulsarCartaRaton);
+            document.removeEventListener("mousemove", moverCartaRaton);	
+            document.removeEventListener("mouseup", dejarCartaRaton);
 
             moverCarta();
 
@@ -103,9 +103,9 @@ window.onload = function() {
                 musicamazo.play();
                 musicamazo.currentTime = 0;
                 setTimeout(() => {
-                    canvas.addEventListener("mousedown", pulsarCartaRaton);
-                    canvas.addEventListener("mousemove", moverCartaRaton);	
-                    canvas.addEventListener("mouseup", dejarCartaRaton);
+                    document.addEventListener("mousedown", pulsarCartaRaton);
+                    document.addEventListener("mousemove", moverCartaRaton);	
+                    document.addEventListener("mouseup", dejarCartaRaton);
                 }, 500)
             }
         }
@@ -120,10 +120,11 @@ window.onload = function() {
             if (ncartas === 0) resuelto = true;
             else resuelto = false;
 
-            canvas.removeEventListener("mousedown", pulsarCartaRaton);
-            canvas.removeEventListener("mousemove", moverCartaRaton);	
-            canvas.removeEventListener("mouseup", dejarCartaRaton);
-            setTimeout(finalizarjuego, 500);
+            document.removeEventListener("mousedown", pulsarCartaRaton);
+            document.removeEventListener("mousemove", moverCartaRaton);	
+            document.removeEventListener("mouseup", dejarCartaRaton);
+
+            finalizarjuego();
         }
 	}
 
@@ -169,14 +170,6 @@ window.onload = function() {
         }
     }
 
-    canvas.addEventListener("mousedown", pulsarCartaRaton);
-    canvas.addEventListener("mousemove", moverCartaRaton);	
-    canvas.addEventListener("mouseup", dejarCartaRaton);
-
-    imagen = new Image();
-    imagen.src = "Imagenes/Baraja.png";
-    darImagen(imagen);
-
     let iniciar = document.getElementById("nuevojuego")
     iniciar.onclick = iniciarJuego;
     
@@ -184,9 +177,13 @@ window.onload = function() {
 
         iniciarVariables();
 
+        document.addEventListener("mousedown", pulsarCartaRaton);
+        document.addEventListener("mousemove", moverCartaRaton);	
+        document.addEventListener("mouseup", dejarCartaRaton);
+
         crearJuego();
         crearReservaMonton();
-        id1= setInterval(pintaTablero, 1000/50);
+        id1= setInterval(pintaTablero, 1000/100);
 
         iniciarContador = Date.now(); 
         id2 = setInterval(actualizarBarra, 1000);
@@ -212,10 +209,9 @@ window.onload = function() {
         iniciar.disabled = false;
         if (resuelto) {
             musicavictoria.play();
-            
+            guardarResultado(contador.textContent);
         }
         else musicaperdido.play();
-        guardarResultado(contador.textContent);
     }
 
     function guardarResultado(tiempo) {
