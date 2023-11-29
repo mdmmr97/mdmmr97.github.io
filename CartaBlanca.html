@@ -15,7 +15,7 @@
     <script src="Script/CrearTablero.js"></script>
     <script src="Script/Comprobaciones.js"></script>
     <script src="Script/AccionesCartas.js"></script>
-    <script src="Script/LocalStore.js"></script>
+    <script src="Script/LocalRecord.js"></script>
     <script src="Script/Tablero.js"></script>
     
 </head>
@@ -44,7 +44,17 @@
                     <button type="button" onclick="borrarMovimiento()"><i class="fa-solid fa-rotate-right fa-flip-both" style="color: #000000;"></i></button>
                 </div>
                 <div>
-                    <table></table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Jugador</th>
+                                <th>Tipo Juego</th>
+                                <th>Tiempo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mostrarrecord">
+                        </tbody>
+                    </table>
                     <textarea id="areaL" cols="40" rows="5" placeholder="Mejores Tiempos"></textarea>
                     <div id ="Botonera">
                         <input id="boton" type="button" value="Resetear"/>

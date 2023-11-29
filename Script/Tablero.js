@@ -1,6 +1,7 @@
 window.onload = function() {
     let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion;
-    let pintando, id1, id2, resuelto;
+    let pintando, id1, id2, resuelto, record;
+    let records = [];
 
     canvas = document.getElementById("miCanvas");
     ctx = canvas.getContext("2d");
@@ -19,9 +20,12 @@ window.onload = function() {
     let musicamazo = document.getElementById("dejarmazo");
     musicamazo.volume = 0.5;
 
-    document.getElementById("areaL").value = recuperarDatoLocal();
+    let tabla = document.getElementById("mostrarrecord");
+    document.getElementById("areaL").value = recuperarDatoLocal(0);
     document.getElementById("boton").onclick = resetearDatos;
     document.getElementById("areaL").disabled = true;
+
+
     
     function iniciarVariables() {
         ncartas = 52;
@@ -210,21 +214,58 @@ window.onload = function() {
             guardarResultado(contador.textContent);
         }
         else musicaperdido.play();
+        resuelto = false;
     }
 
     function guardarResultado(tiempo) {
 
-        localStorage.setItem("area", document.getElementById("areaL").value + "player0 "+ "| tiempo " + tiempo + "\n");
-        document.getElementById("areaL").value = recuperarDatoLocal();
+        record = new LocalRecord();
+        record.nombreplayer = "player0";
+        record.tipojuego = "Aleatorio";
+        record.tiempo = tiempo;
+        records.push(record);
+
+        localStorage.setItem("records", JSON.stringify(records));
+        crearFilaTabla(record);
+
+        localStorage.setItem("area", document.getElementById("areaL").value + "player0 "+ "|  tipo aleatorio | tiempo " + tiempo + "\n");
+        document.getElementById("areaL").value = recuperarDatoLocal(1);
     }
     
-    function recuperarDatoLocal() {		
+    function recuperarDatoLocal(ganar) {		
+
+        if (ganar === 0){
+            let recordsparse = JSON.parse(localStorage.getItem("records"));
+            if (recordsparse !== null){
+                recordsparse.forEach(rp => {
+                    record = new LocalRecord()
+                    record.nombreplayer = rp.nombreplayer;
+                    record.tipojuego = rp.tipojuego;
+                    record.tiempo = rp.tiempo;
+                    records.push(record);
+                })
+                if (records.length > 0) records.forEach(frecord => {crearFilaTabla(frecord)})
+            }
+        }
         return localStorage.getItem("area");		
     }
 
     function resetearDatos() {
         // Elimina el item de almacenamiento "area"
-        localStorage.removeItem("area");		
+        localStorage.removeItem("area");
+        localStorage.removeItem("records")		
     }
 
+    function crearFilaTabla(fila) {
+        let filatabla = document.createElement("tr");
+        for (let e = 0; e < 3; e++) {
+            let celda = document.createElement("td");
+            if (e === 0) celda.innerText = fila.nombreplayer;
+            if (e === 1) celda.innerText = fila.tipojuego;
+            if (e === 2) celda.innerText = fila.tiempo;
+
+            filatabla.appendChild(celda);
+        }
+        tabla.appendChild(filatabla);
+    }
 }
