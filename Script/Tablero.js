@@ -80,14 +80,29 @@ window.onload = function() {
 
         buscarUltimasCartas();
         buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
+        mostrarncartas.textContent = "Total: " + ncartas;
+        mostrarrestrincion.textContent = "Max Mover: " + restrincion;
 
         if (!pintando && tipomovimiento === TIPOMONTON){
             if(comprobarMoverAMazo(ultimasCartas, 
                                    reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length),
                                    TIPOJUEGO)) pintando = true;
+
             if(!pintando && comprobarMoverAMazo(cartasreserva, 
                                                 reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
                                                 TIPORESERVA)) pintando = true;
+
+            if (!pintando && (ncartas === 0 || terminarJuego())  ) {
+
+                if (ncartas === 0) resuelto = true;
+                else resuelto = false;
+    
+                document.removeEventListener("mousedown", pulsarCartaRaton);
+                document.removeEventListener("mousemove", moverCartaRaton);	
+                document.removeEventListener("mouseup", dejarCartaRaton);
+    
+                finalizarjuego();
+            }
         }
 
         if (pintando && tipomovimiento === TIPOMONTON) {
@@ -108,23 +123,6 @@ window.onload = function() {
                     document.addEventListener("mouseup", dejarCartaRaton);
                 }, 500)
             }
-        }
-
-        buscarUltimasCartas();
-        buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
-        mostrarncartas.textContent = "Total: " + ncartas;
-        mostrarrestrincion.textContent = "Max Mover: " + restrincion
-
-        if ((ncartas === 0 || terminarJuego()) && !pintando) {
-
-            if (ncartas === 0) resuelto = true;
-            else resuelto = false;
-
-            document.removeEventListener("mousedown", pulsarCartaRaton);
-            document.removeEventListener("mousemove", moverCartaRaton);	
-            document.removeEventListener("mouseup", dejarCartaRaton);
-
-            finalizarjuego();
         }
 	}
 
