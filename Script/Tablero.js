@@ -13,12 +13,14 @@ window.onload = function() {
     let musicafondo = document.getElementById("musicafondo");
     musicafondo.volume = 0.1;
     let audioseleccionar = document.getElementById("cogercarta");
+    audioseleccionar.volume = 0.5;
     let audiodejar = document.getElementById("dejarcarta");
+    audiodejar.volume = 0.4;
     let musicavictoria = document.getElementById("ganar");
     let musicaperdido = document.getElementById("perder");
     musicaperdido.volume = 0.35;
     let musicamazo = document.getElementById("dejarmazo");
-    musicamazo.volume = 0.5;
+    musicamazo.volume = 0.25;
 
     let tabla = document.getElementById("mostrarrecord");
     document.getElementById("areaL").value = recuperarDatoLocal(0);

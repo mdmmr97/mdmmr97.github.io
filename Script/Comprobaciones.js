@@ -10,10 +10,11 @@ function dentroY(ymover, todareacarta) {
 }
 
 function comprobarDestinoVacio (cartadestino) {return cartadestino === undefined ? true : false;}
+function comprobarCartaVacia(carta) {return carta.numero === undefined ? true : false}
 
 function comprobarNumCarta(cartamover, cartadestino, destino) {
     
-    if (comprobarDestinoVacio (cartadestino) || cartadestino.numero === undefined) {
+    if (comprobarDestinoVacio (cartadestino) || comprobarCartaVacia(cartadestino)) {
         if (cartamover.numero === 1 && destino === TIPOMONTON)  return true;
         if (destino === TIPOJUEGO || destino === TIPORESERVA) return true;
     }

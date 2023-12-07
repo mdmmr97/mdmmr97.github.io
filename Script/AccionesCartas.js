@@ -138,17 +138,19 @@ function seleccionarCarta(){
             else borrarCartaSelect();
         break;
         case TIPOJUEGO:
-            seleccionar = guardarEnSeleccion();
-            if (seleccionar.length === 1) {
-                seleccionar.forEach(carta => {carta.guardarPosicionOriginal()});
-                borrarCartaJuego();
-            }
-            else {
-                if (comprobarMoverSeleccion() && comprobarRestrincion()){
+            if (!comprobarCartaVacia(areapuntero)){
+                seleccionar = guardarEnSeleccion();
+                if (seleccionar.length === 1) {
                     seleccionar.forEach(carta => {carta.guardarPosicionOriginal()});
                     borrarCartaJuego();
                 }
-                else borrarCartaSelect();
+                else {
+                    if (comprobarMoverSeleccion() && comprobarRestrincion()){
+                        seleccionar.forEach(carta => {carta.guardarPosicionOriginal()});
+                        borrarCartaJuego();
+                    }
+                    else borrarCartaSelect();
+                }
             }
         break;
     }
