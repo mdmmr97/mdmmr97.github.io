@@ -6,8 +6,13 @@
     <title>ENTREGABLE 2 CARTABLANCA</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="Styles/CartaBlanca.css" title="style" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
     
     <script src="Script/Constantes.js"></script>
+    <script src="Script/FuncionalidadBotones.js"></script>
     <script src="Script/Historial.js"></script>
     <script src="Script/Reserva.js"></script>
     <script src="Script/Monton.js"></script>
@@ -20,46 +25,72 @@
     
 </head>
     <body>
-        <audio id="musicafondo" src="Sonido/rain-and-nostalgia-version-60s-10820.mp3" loop></audio>
-        <audio id="ganar" src="Sonido/Ganar.mp3"></audio>
-        <audio id="perder" src="Sonido/Perdido.mp3"></audio>
-        <audio id="cogercarta" src="Sonido/CogerCarta.mp3"></audio>
-        <audio id="dejarcarta" src="Sonido/DejarCarta.mp3"></audio>
-        <audio id="dejarmazo" src="Sonido/Enmazo.mp3"></audio>
-        <h1>CARTABLANCA</h1>
-        <div class="mostrar">
-            <div class="canvas">
-                <div class="cabecera">
-                    <div><p id="maxcartas"></p></div>
-                    <div><p id="tiempo"></p></div>
-                    <div><p id="cartastotal"></p></div>
+        <div id="audios">
+            <audio id="musicafondo" src="Sonido/rain-and-nostalgia-version-60s-10820.mp3" loop></audio>
+            <audio id="ganar" src="Sonido/Ganar.mp3"></audio>
+            <audio id="perder" src="Sonido/Perdido.mp3"></audio>
+            <audio id="cogercarta" src="Sonido/CogerCarta.mp3"></audio>
+            <audio id="dejarcarta" src="Sonido/DejarCarta.mp3"></audio>
+            <audio id="dejarmazo" src="Sonido/Enmazo.mp3"></audio>
+        </div>
+        <div class="wrapper">
+            <div class="titulo"><h1>CARTABLANCA</h1></div>
+            <div class="row">
+                <div class="col-xl-auto p-xl-0 col-xxl-auto m-xll-2 botones">
+                    <button id="silenciarfondo" class="m-0 w-100">
+                        <i id="btvolumen" class="bi bi-volume-up-fill"></i>
+                    </button>
                 </div>
-                <canvas id="miCanvas" width="1024" height="800"></canvas>
-            </div>
-            <div class="demascosas">
-                <div>
-                    <button type="button" id="nuevojuego">Empezar Partida</button>
-                </div>
-                <div>
-                    <button type="button" onclick="borrarMovimiento()"><i class="fa-solid fa-rotate-right fa-flip-both" style="color: #000000;"></i></button>
-                </div>
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Jugador</th>
-                                <th>Tipo Juego</th>
-                                <th>Tiempo</th>
-                            </tr>
-                        </thead>
-                        <tbody id="mostrarrecord">
-                        </tbody>
-                    </table>
-                    <textarea id="areaL" cols="40" rows="5" placeholder="Mejores Tiempos"></textarea>
-                    <div id ="Botonera">
-                        <input id="boton" type="button" value="Resetear"/>
+                <div class="col-xl-auto col-xxl-7 p-0 m-2 canvas">
+                    <div class="cabecera">
+                        <div class="vertical-aling-center"><p id="maxcartas"></p></div>
+                        <div><p id="tiempo"></p></div>
+                        <div><p id="cartastotal"></p></div>
                     </div>
-                </div> 
+                    <canvas id="miCanvas" width="1024" height="800"></canvas>
+                </div>
+                <div class="col-xl-2 col-xxl-3 p-0 m-2">
+                    <div class="tipodejuego">
+                        <label class="text-light">Selecciona tipo de juego:</label>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="aleatorio" autocomplete="off" checked>
+                            <label class="btn btn-outline-light" for="aleatorio">Aleatorio</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="facil" autocomplete="off">
+                            <label class="btn btn-outline-light" for="facil">Facil</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="medio" autocomplete="off">
+                            <label class="btn btn-outline-light" for="medio">Medio</label>
+                        </div>
+                    </div>
+                    <div class="empezarpartida ">
+                        <button type="button" id="nuevojuego">Empezar Partida</button>
+                    </div>
+                    <div class="nombre" id="nombreplayer">
+                        <label class="text-light">Introduce un nombre:</label>
+                        <input type="text" lass="form-control">
+                        <button type="button" id="guardarnombre">Guardar Nombre</button>
+                    </div>
+                    <!--<div>
+                        <button type="button" onclick="borrarMovimiento()"><i class="fa-solid fa-rotate-right fa-flip-both" style="color: #000000;"></i></button>
+                    </div>-->
+                    <div class="tablaresultados">
+                        <table class="table text-center">
+                            <thead class="table-success table-bordered">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Tiempo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-light" id="mostrarrecord">
+                            </tbody>
+                        </table>
+                        <div id ="Botonera">
+                            <input id="botonreset" type="button" value="Resetear"/>
+                        </div>
+                    </div> 
+                </div>
             </div>
         </div>
     </body>

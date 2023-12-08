@@ -1,4 +1,7 @@
 window.onload = function() {
+
+    let musicafondo, audioseleccionar, audiodejar, musicavictoria, musicaperdido, musicamazo;
+    let iniciar, silenciarfondo, juegoaleatorio, juegofacil, juegomedio;
     let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion;
     let pintando, id1, id2, resuelto, record;
     let records = [];
@@ -10,25 +13,38 @@ window.onload = function() {
     contador = document.getElementById("tiempo"); 
     mostrarncartas = document.getElementById("cartastotal");
 
-    let musicafondo = document.getElementById("musicafondo");
-    musicafondo.volume = 0.1;
-    let audioseleccionar = document.getElementById("cogercarta");
-    audioseleccionar.volume = 0.5;
-    let audiodejar = document.getElementById("dejarcarta");
-    audiodejar.volume = 0.4;
-    let musicavictoria = document.getElementById("ganar");
-    let musicaperdido = document.getElementById("perder");
-    musicaperdido.volume = 0.35;
-    let musicamazo = document.getElementById("dejarmazo");
-    musicamazo.volume = 0.25;
-
     let tabla = document.getElementById("mostrarrecord");
-    document.getElementById("areaL").value = recuperarDatoLocal(0);
-    document.getElementById("boton").onclick = resetearDatos;
-    document.getElementById("areaL").disabled = true;
+    recuperarDatoLocal(0);
+    document.getElementById("botonreset").onclick = resetearDatos;
 
+    function iniciarMusica() {
 
-    
+        musicafondo = document.getElementById("musicafondo");
+        musicafondo.volume = 0.2;
+
+        audioseleccionar = document.getElementById("cogercarta");
+        audioseleccionar.volume = 0.5;
+
+        audiodejar = document.getElementById("dejarcarta");
+        audiodejar.volume = 0.4;
+
+        musicavictoria = document.getElementById("ganar");
+
+        musicaperdido = document.getElementById("perder");
+        musicaperdido.volume = 0.35;
+
+        musicamazo = document.getElementById("dejarmazo");
+        musicamazo.volume = 0.25;
+    }
+
+    function iniciarBotones() {
+        iniciar = document.getElementById("nuevojuego");
+        silenciarfondo = document.getElementById("silenciarfondo");
+        juegoaleatorio = document.getElementById("aleatorio");
+        juegofacil = document.getElementById("facil");
+        juegomedio = document.getElementById("medio");
+    }
+
     function iniciarVariables() {
         ncartas = 52;
         restrincion = 5;
@@ -174,10 +190,9 @@ window.onload = function() {
         }
     }
 
-    let iniciar = document.getElementById("nuevojuego")
-    iniciar.onclick = iniciarJuego;
-    
-    function iniciarJuego() {
+    iniciarMusica();
+    iniciarBotones();
+    iniciar.onclick = () => {
 
         iniciarVariables();
 
@@ -219,6 +234,8 @@ window.onload = function() {
         resuelto = false;
     }
 
+    /* FUNCIONALIDAD LOCALSTORE */
+
     function guardarResultado(tiempo) {
 
         record = new LocalRecord();
@@ -229,9 +246,6 @@ window.onload = function() {
 
         localStorage.setItem("records", JSON.stringify(records));
         crearFilaTabla(record);
-
-        localStorage.setItem("area", document.getElementById("areaL").value + "player0 "+ "|  tipo aleatorio | tiempo " + tiempo + "\n");
-        document.getElementById("areaL").value = recuperarDatoLocal(1);
     }
     
     function recuperarDatoLocal(ganar) {		
@@ -248,8 +262,7 @@ window.onload = function() {
                 })
                 if (records.length > 0) records.forEach(frecord => {crearFilaTabla(frecord)})
             }
-        }
-        return localStorage.getItem("area");		
+        }		
     }
 
     function resetearDatos() {
@@ -270,4 +283,25 @@ window.onload = function() {
         }
         tabla.appendChild(filatabla);
     }
+
+    /* FUNCIONALIDAD BOTONES */
+
+    silenciarfondo.onclick = () => {
+        let musica = document.getElementById("btvolumen");
+
+        if (musicafondo.volume !== 0) {
+            musicafondo.volume = 0;
+            musica.classList.add("bi-volume-mute-fill");
+            musica.classList.remove("bi-volume-up-fill");
+        }
+        else {
+            musicafondo.volume = 0.2;
+            musica.classList.add("bi-volume-up-fill");
+            musica.classList.remove("bi-volume-mute-fill");        
+        }
+    }
+
+    juegoaleatorio.onclick =() => {tipojuegocrear = "ALEATORIO";}
+    juegofacil.onclick = () => {tipojuegocrear = "FACIL";}
+    juegomedio.onclick = () => {tipojuegocrear = "MEDIO"}
 }

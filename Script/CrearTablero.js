@@ -108,10 +108,27 @@ function crearBaraja() {
     }
 }
 
-function mezclarMazo() {
-    //Para mexcla aleatoria ponemos -0.5 para asi poder obtener numeros negativos y que haga 
-    //la mezcla  aleatoria.
-    return (Math.random()-0.5);
+function mezclarMazo(carta1, carta2) {
+
+    if (tipojuegocrear === "FACIL"){
+        let cartaA = J_FACIL.findIndex((elemento) => {
+            return elemento.numero === carta1.numero && elemento.palo === carta1.palo;
+        });
+        let cartaB = J_FACIL.findIndex((elemento) => {
+            return elemento.numero === carta2.numero && elemento.palo === carta2.palo;
+        });
+        return cartaA-cartaB;
+    }
+    if (tipojuegocrear === "MEDIO"){
+        let cartaA = J_MEDIO.findIndex((elemento) => {
+            return elemento.numero === carta1.numero && elemento.palo === carta1.palo;
+        });
+        let cartaB = J_MEDIO.findIndex((elemento) => {
+            return elemento.numero === carta2.numero && elemento.palo === carta2.palo;
+        });
+        return cartaA-cartaB;
+    }
+    if (tipojuegocrear === "ALEATORIO") return (Math.random()-0.5);
 }
 
 function crearJuego() {
