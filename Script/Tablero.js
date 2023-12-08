@@ -3,7 +3,7 @@ window.onload = function() {
     let musicafondo, audioseleccionar, audiodejar, musicavictoria, musicaperdido, musicamazo;
     let iniciar, silenciarfondo, juegoaleatorio, juegofacil, juegomedio;
     let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion;
-    let pintando, id1, id2, resuelto, record;
+    let pintando, id1, id2, resuelto, record, nombreplayer;
     let records = [];
 
     canvas = document.getElementById("miCanvas");
@@ -12,6 +12,8 @@ window.onload = function() {
     mostrarrestrincion = document.getElementById("maxcartas");
     contador = document.getElementById("tiempo"); 
     mostrarncartas = document.getElementById("cartastotal");
+
+    let campotexto = document.getElementById("campotexto");
 
     let tabla = document.getElementById("mostrarrecord");
     recuperarDatoLocal(0);
@@ -64,7 +66,6 @@ window.onload = function() {
         tipomovimiento = TIPOMONTON;
         llegadodestino = false;
         pintando = false;
-
     }
 
     function pintarCarta (carta) {
@@ -192,6 +193,16 @@ window.onload = function() {
 
     iniciarMusica();
     iniciarBotones();
+
+    campotexto.addEventListener("input", () => {
+        if(campotexto.value !== ""){
+
+            iniciar.disabled = false;
+            nombreplayer = campotexto.value;
+
+        }else iniciar.disabled = true;
+    })
+
     iniciar.onclick = () => {
 
         iniciarVariables();
@@ -208,7 +219,6 @@ window.onload = function() {
         id2 = setInterval(actualizarBarra, 1000);
         iniciar.disabled = true;
     }
-    //if(historial !== undefined) guardarEnHistorial();
     function actualizarBarra() {
         let tiempoactual = Date.now();
         tiempopasado = Math.floor((tiempoactual-iniciarContador)/1000);
@@ -239,13 +249,22 @@ window.onload = function() {
     function guardarResultado(tiempo) {
 
         record = new LocalRecord();
-        record.nombreplayer = "player0";
-        record.tipojuego = "Aleatorio";
+        record.nombreplayer = nombreplayer;
+        record.tipojuego = tipojuegocrear;
         record.tiempo = tiempo;
+        record.tiemposegundos = tiempopasado;
         records.push(record);
 
+        records.sort((marca1, marca2) => {return marca1.tiemposegundos - marca2.tiemposegundos})
+
         localStorage.setItem("records", JSON.stringify(records));
-        crearFilaTabla(record);
+
+        while(tabla.firstChild) {tabla.removeChild(tabla.firstChild);}
+
+        records.some((posicion, index) => {
+            if(index < 5) crearFilaTabla(posicion);
+            else return false;
+        });
     }
     
     function recuperarDatoLocal(ganar) {		
@@ -258,6 +277,7 @@ window.onload = function() {
                     record.nombreplayer = rp.nombreplayer;
                     record.tipojuego = rp.tipojuego;
                     record.tiempo = rp.tiempo;
+                    record.tiemposegundos = rp.tiemposegundos;
                     records.push(record);
                 })
                 if (records.length > 0) records.forEach(frecord => {crearFilaTabla(frecord)})
@@ -266,8 +286,6 @@ window.onload = function() {
     }
 
     function resetearDatos() {
-        // Elimina el item de almacenamiento "area"
-        localStorage.removeItem("area");
         localStorage.removeItem("records")		
     }
 

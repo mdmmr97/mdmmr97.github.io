@@ -23,28 +23,36 @@ h1{
 
 /*--- CANVAS ---*/
 .cabecera{
-    margin-bottom: 0;
-    background-color: grey;
-    width: 1024px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  margin-bottom: 0%;
+  margin-left: 10px;
+  background-image: url(../Imagenes/marcador.png);
+  color: aliceblue;
+  width: 1024px;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#tiempo{
+  font-size: 40px;
 }
 
 #tiempo, #cartastotal, #maxcartas{
-    
-    font-size: 30px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  font-size: 30px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
 }
 
 #miCanvas { 
     background-image: url("../Imagenes/FondoTablero.png"); 
     margin: 0; 
+    border-radius: 3%;
+    border: rgb(72, 168, 16) solid 1px;
 }
 
 .elementos{
