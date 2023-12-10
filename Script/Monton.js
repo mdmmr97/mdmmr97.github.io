@@ -1,7 +1,6 @@
 function Monton () {
     this.x;
     this.palo;
-
     this.carta;
 }
 

@@ -1,33 +1,42 @@
-let cartavacia;
-let captura
-let columnavacia = false;
+function AccionesCartas() {
+    this.areapuntero;
+    this.origencarta;
+    this.montondestino;
+
+    this.cartavacia;
+    this.columnavacia = false;
+}
+
+AccionesCartas.prototype.establecerAreaPuntero = function (_areapuntero) { this.areapuntero = _areapuntero}
+AccionesCartas.prototype.establecerMontonDestino = function (_montondestino) { this.montondestino = _montondestino}
+AccionesCartas.prototype.darOrigenCarta = function (_origencarta) { this.origencarta = _origencarta}
 
 /* ----- GESTION CARTAS ----- */
-function guardarEnSeleccion(){
+AccionesCartas.prototype.guardarEnSeleccion = function (){
     let selec;
     juego.some(colum => {
-        if(colum.includes(areapuntero)){
-            selec = colum.slice(colum.indexOf(areapuntero), colum.length);
+        if(colum.includes(this.areapuntero)){
+            selec = colum.slice(colum.indexOf(this.areapuntero), colum.length);
             return true;
         }
     })
     return selec;
 }
 
-function guardarEnJuego(posicioncarta) {
+AccionesCartas.prototype.guardarEnJuego = function (posicioncarta) {
     juego.some(colum => {
         if(colum.includes(posicioncarta)){
             seleccionar.forEach((carta, indexf)=> {
                 if (posicioncarta.numero === undefined) {
                     carta.guardarPosicionNueva(posicioncarta.x, posicioncarta.y, indexf);
-                    columnavacia = true;
+                    this.columnavacia = true;
                 }
                 else carta.guardarPosicionNueva(posicioncarta.x, posicioncarta.y, indexf + 1);
                 colum.push(carta);
             });
-            if (columnavacia) {
+            if (this.columnavacia) {
                 colum.shift();
-                columnavacia = false;
+                this.columnavacia = false;
                 restrincion--;
             }
             return true;
@@ -36,7 +45,7 @@ function guardarEnJuego(posicioncarta) {
     })
 }
 
-function guardarEnReserva(posicionx) {
+AccionesCartas.prototype.guardarEnReserva = function (posicionx) {
     reserva_monton.some((reserva, index) => {
         if((reserva.x === posicionx) && index < COLUMNASRESERVA_MONTON/2) {
             reserva.darCartaReserva(seleccionar[0]);
@@ -48,7 +57,7 @@ function guardarEnReserva(posicionx) {
     })
 }
 
-function recuperarEnJuego(cartarecuperar) {
+AccionesCartas.prototype.recuperarEnJuego = function (cartarecuperar) {
     juego.some(colum => {
         if(colum[0].x === cartarecuperar.x){
             seleccionar.forEach(carta=> {colum.push(carta);});
@@ -58,20 +67,22 @@ function recuperarEnJuego(cartarecuperar) {
     })
 }
 
-function crearCartaVacia () {
-    cartavacia = new Carta();
-    cartavacia.x = seleccionar[0].xoriginal;
-    cartavacia.y = seleccionar[0].yoriginal;
+AccionesCartas.prototype.crearCartaVacia = function () {
+    let _cartavacia = new Carta();
+    _cartavacia.darXCarta(seleccionar[0].xoriginal);
+    _cartavacia.darYCarta(seleccionar[0].yoriginal);
+
+    this.cartavacia = _cartavacia
 }
 
-function borrarCartaJuego() {
+AccionesCartas.prototype.borrarCartaJuego = function () {
     juego.some(colum => {
         if(colum.includes(seleccionar[0])){
-            if (colum.length - seleccionar.length === 0) crearCartaVacia();
+            if (colum.length - seleccionar.length === 0) this.crearCartaVacia();
             colum.splice(colum.indexOf(seleccionar[0]), colum.length);
-            if (cartavacia !== undefined) {
-                colum.push(cartavacia);
-                cartavacia = undefined;
+            if (this.cartavacia !== undefined) {
+                colum.push(this.cartavacia);
+                this.cartavacia = undefined;
                 restrincion++;
             }
             return true;
@@ -80,13 +91,13 @@ function borrarCartaJuego() {
     })
 }
 
-function borrarCartaSelect() {
+AccionesCartas.prototype.borrarCartaSelect = function () {
     seleccionar.splice(0, seleccionar.length);
-    areapuntero = undefined;
-    origencarta = undefined;
+    this.areapuntero = undefined;
+    this.origencarta = undefined;
 }
 
-function borrarCartaReserva() {
+AccionesCartas.prototype.borrarCartaReserva = function () {
     reserva_monton.some((monton, index) => {
         if(monton.carta === seleccionar[0] && index < COLUMNASRESERVA_MONTON/2){
             monton.darCartaReserva(undefined);
@@ -97,45 +108,44 @@ function borrarCartaReserva() {
     })
 }
 
-function devolverCartaPosicionOriginal() {
+AccionesCartas.prototype.devolverCartaPosicionOriginal = function () {
     seleccionar.forEach(carta => {carta.recuperarPosicionOriginal();});
-    if (origencarta === TIPORESERVA) guardarEnReserva(seleccionar[0].x);
-    if (origencarta === TIPOJUEGO) recuperarEnJuego(seleccionar[0]);
-    
+    if (this.origencarta === TIPORESERVA) this.guardarEnReserva(seleccionar[0].x);
+    if (this.origencarta === TIPOJUEGO) this.recuperarEnJuego(seleccionar[0]);
 }
 
 /* ----- MOUSE ----- */
 
-function seleccionarCarta(){
+AccionesCartas.prototype.seleccionarCarta = function (){
     switch (tipomovimiento) {
         case TIPORESERVA:
-            if (areapuntero.carta !== undefined){
-                areapuntero.carta.guardarPosicionOriginal();
-                seleccionar[0] = areapuntero.carta;
-                borrarCartaReserva();
+            if (this.areapuntero.carta !== undefined){
+                this.areapuntero.carta.guardarPosicionOriginal();
+                seleccionar[0] = this.areapuntero.carta;
+                this.borrarCartaReserva();
             }
-            else borrarCartaSelect();
+            else this.borrarCartaSelect();
         break;
         case TIPOJUEGO:
-            if (!comprobarCartaVacia(areapuntero)){
-                seleccionar = guardarEnSeleccion();
+            if (!comprobacion.comprobarCartaVacia(this.areapuntero)){
+                seleccionar = this.guardarEnSeleccion();
                 if (seleccionar.length === 1) {
                     seleccionar.forEach(carta => {carta.guardarPosicionOriginal()});
-                    borrarCartaJuego();
+                    this.borrarCartaJuego();
                 }
                 else {
-                    if (comprobarMoverSeleccion() && comprobarRestrincion()){
+                    if (comprobacion.comprobarMoverSeleccion() && comprobacion.comprobarRestrincion()){
                         seleccionar.forEach(carta => {carta.guardarPosicionOriginal()});
-                        borrarCartaJuego();
+                        this.borrarCartaJuego();
                     }
-                    else borrarCartaSelect();
+                    else this.borrarCartaSelect();
                 }
             }
         break;
     }
 }
 
-function moverCarta(){
+AccionesCartas.prototype.moverCarta = function (){
     switch (tipomovimiento) {
         case TIPOMONTON:
             seleccionar[0].generarPosicionXAuto();
@@ -150,26 +160,26 @@ function moverCarta(){
     }
 }
 
-function dejarCarta(){
+AccionesCartas.prototype.dejarCarta = function (){
     switch (tipomovimiento) {
         case TIPORESERVA:
-            if (comprobarMoverAReserva()){
-                guardarEnReserva(areapuntero.x);
-                borrarCartaSelect();
+            if (comprobacion.comprobarMoverAReserva(this.areapuntero)){
+                this.guardarEnReserva(this.areapuntero.x);
+                this.borrarCartaSelect();
             }
             else{
-                devolverCartaPosicionOriginal();
-                borrarCartaSelect();
+                this.devolverCartaPosicionOriginal();
+                this.borrarCartaSelect();
             }
         break;
         case TIPOJUEGO:
-            if (comprobarMoverAJuego()){
-                guardarEnJuego(areapuntero);
-                borrarCartaSelect();
+            if (comprobacion.comprobarMoverAJuego(this.areapuntero)){
+                this.guardarEnJuego(this.areapuntero);
+                this.borrarCartaSelect();
             }
             else{
-                devolverCartaPosicionOriginal();
-                borrarCartaSelect();
+                this.devolverCartaPosicionOriginal();
+                this.borrarCartaSelect();
             }
         break;
     }
@@ -177,14 +187,14 @@ function dejarCarta(){
 
 /* ----- AUTO ----- */
 
-function buscarUltimasCartas(){
+AccionesCartas.prototype.buscarUltimasCartas = function (){
     for (let u = 0; u < juego.length; u++) {
         ultimasCartas[u] = juego[u][juego[u].length-1];
     }
 
 }
 
-function buscarCartasReserva(reserva) {
+AccionesCartas.prototype.buscarCartasReserva = function (reserva) {
     let i = 0;
     for (let r = 0; r < reserva.length; r++) {
         if (reserva[r].carta !== undefined ) {
@@ -194,21 +204,20 @@ function buscarCartasReserva(reserva) {
     }
 }
 
-function terminadoPintar() {
-    if (seleccionar[0].x === montondestino.x && seleccionar[0].y === montondestino.y){
-        guardarEnMazo();
-        //guardarEnHistorial();
+AccionesCartas.prototype.terminadoPintar = function () {
+    if (seleccionar[0].x === this.montondestino.x && seleccionar[0].y === this.montondestino.y){
+        this.guardarEnMazo();
         console.log(ncartas);
         return true;
     } 
     return false;
 }
 
-function guardarEnMazo(){
+AccionesCartas.prototype.guardarEnMazo = function (){
     reserva_monton.some(monton => {
-        if (monton === montondestino) {
+        if (monton === this.montondestino) {
             monton.darCartaMonton(seleccionar[0]);
-            borrarCartaSelect();
+            this.borrarCartaSelect();
             ncartas--;
             return true;
         }
@@ -217,9 +226,9 @@ function guardarEnMazo(){
 }
 
 /* ----- FINALIZAR JUEGO ----- */
-function terminarJuego() {
+AccionesCartas.prototype.terminarJuego = function () {
     if (restrincion === 1){
-        if(!comprobarMovimientosDesdeReserva() && !comprobarMovimientosDesdeJuego()) return true;
+        if(!comprobacion.comprobarMovimientosDesdeReserva() && !comprobacion.comprobarMovimientosDesdeJuego()) return true;
     }
     return false;
 }

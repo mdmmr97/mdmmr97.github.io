@@ -7,7 +7,10 @@ window.onload = function() {
     let tabla, record, campotexto, nombreplayer;
     let records = [];
 
-    let crearjuego;
+    function Tablero() {
+        //this.tipomovimiento;
+    }
+    //Tablero.prototype.darTipoMovimiento = function (_montondestino) { this.tipomovimiento = _tipomovimiento}
 
     /* INICIAR ELEMENTOS */
 
@@ -62,18 +65,18 @@ window.onload = function() {
         imagen.src = "Imagenes/Baraja.png";
         darImagen(imagen);
 
-        crearjuego = new CrearTablero();
+        tablero = new Tablero();
+        accion = new AccionesCartas();
+        comprobacion = new Comprobaciones();
 
         seleccionar = [];
         juego = [[]];
         reserva_monton = [];
 
-        montondestino;
         ultimasCartas = [];
         cartasreserva = [];
 
         tipomovimiento = TIPOMONTON;
-        llegadodestino = false;
         pintando = false;
     }
 
@@ -96,8 +99,6 @@ window.onload = function() {
 		
 		ctx.clearRect(0, 0, ANCHOTABLERO, ALTOTABLERO);
 
-        //console.log(historial);
-
         reserva_monton.forEach(espacio => {
             if (espacio.carta !== undefined) pintarCarta (espacio.carta);
         })
@@ -112,21 +113,21 @@ window.onload = function() {
             seleccionar.forEach(carta => {if (carta !== undefined) pintarCarta (carta)})
         }
 
-        buscarUltimasCartas();
-        buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
+        accion.buscarUltimasCartas();
+        accion.buscarCartasReserva(reserva_monton.slice(0, DESNIVELROWCOLUM));
         mostrarncartas.textContent = "Total: " + ncartas;
         mostrarrestrincion.textContent = "Max Mover: " + restrincion;
 
         if (!pintando && tipomovimiento === TIPOMONTON){
-            if(comprobarMoverAMazo(ultimasCartas, 
-                                   reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length),
-                                   TIPOJUEGO)) pintando = true;
+            if(comprobacion.comprobarMoverAMazo(ultimasCartas, 
+                                                reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length),
+                                                TIPOJUEGO)) pintando = true;
 
-            if(!pintando && comprobarMoverAMazo(cartasreserva, 
-                                                reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
-                                                TIPORESERVA)) pintando = true;
+            if(!pintando && comprobacion.comprobarMoverAMazo(cartasreserva, 
+                                                             reserva_monton.slice(DESNIVELROWCOLUM,reserva_monton.length), 
+                                                             TIPORESERVA)) pintando = true;
 
-            if (!pintando && (ncartas === 0 || terminarJuego())  ) {
+            if (!pintando && (ncartas === 0 || accion.terminarJuego())  ) {
 
                 if (ncartas === 0) resuelto = true;
                 else resuelto = false;
@@ -145,9 +146,9 @@ window.onload = function() {
             document.removeEventListener("mousemove", moverCartaRaton);	
             document.removeEventListener("mouseup", dejarCartaRaton);
 
-            moverCarta();
+            accion.moverCarta();
 
-            if (terminadoPintar()) {
+            if (accion.terminadoPintar()) {
                 pintando = false;
                 musicamazo.play();
                 musicamazo.currentTime = 0;
@@ -164,15 +165,16 @@ window.onload = function() {
 
     function obtenerPosicionPuntero(e){
         let areacarta = canvas.getBoundingClientRect();
-        xpuntero = e.clientX - areacarta.left;
-        ypuntero = e.clientY - areacarta.top;
+        comprobacion.darXPuntero(e.clientX - areacarta.left);
+        comprobacion.darYPuntero(e.clientY - areacarta.top);
     }
 
     function pulsarCartaRaton (e) {
         obtenerPosicionPuntero(e);
-        if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
+        if (comprobacion.comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || 
+            comprobacion.comprobarPunteroEnCarta()){
 
-            seleccionarCarta();
+            accion.seleccionarCarta();
             if (seleccionar.length > 0) {
                 pintando = true;
                 audioseleccionar.play();
@@ -184,7 +186,7 @@ window.onload = function() {
     function moverCartaRaton (e) {
         if (pintando) {
             obtenerPosicionPuntero(e);
-            moverCarta();
+            accion.moverCarta();
             pintaTablero();
         }
     }
@@ -192,11 +194,12 @@ window.onload = function() {
     function dejarCartaRaton (e) {
         if (pintando){
             obtenerPosicionPuntero(e);
-            if (comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || comprobarPunteroEnCarta()){
-                dejarCarta();
+            if (comprobacion.comprobarPunteroEnReserva(reserva_monton.slice(0, DESNIVELROWCOLUM)) || 
+                comprobacion.comprobarPunteroEnCarta()){
+                accion.dejarCarta();
             }
             else{
-                devolverCartaPosicionOriginal();
+                accion.devolverCartaPosicionOriginal();
             }
             pintando = false;
             tipomovimiento = TIPOMONTON;
@@ -230,6 +233,7 @@ window.onload = function() {
         document.addEventListener("mousemove", moverCartaRaton);	
         document.addEventListener("mouseup", dejarCartaRaton);
 
+        let crearjuego = new CrearTablero();
         crearjuego.crearJuego();
         crearjuego.crearReservaMonton();
         id1= setInterval(pintaTablero, 1000/100);

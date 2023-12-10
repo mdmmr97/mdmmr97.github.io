@@ -1,20 +1,29 @@
-function dentroX(xmover){ return xmover <= xpuntero && (xmover + ANCHOCARTA) >= xpuntero ? true : false;}
+function Comprobaciones() {
+    this.xpuntero;
+    this.ypuntero;
+}
 
-function dentroY(ymover, todareacarta) { 
+Comprobaciones.prototype.darXPuntero = function (_xpuntero) { this.xpuntero = _xpuntero}
+Comprobaciones.prototype.darYPuntero = function (_ypuntero) { this.ypuntero = _ypuntero}
+
+Comprobaciones.prototype.dentroX = function (xmover){ return xmover <= this.xpuntero && (xmover + ANCHOCARTA) >= this.xpuntero ? true : false;}
+
+Comprobaciones.prototype.dentroY = function (ymover, todareacarta) { 
     if (todareacarta){
-        return ymover <= ypuntero && (ymover + LARGOCARTA) >= ypuntero ? true : false;
+        return ymover <= this.ypuntero && (ymover + LARGOCARTA) >= this.ypuntero ? true : false;
     }
     else{
-        return ymover <= ypuntero && (ymover + DISTFILAS) >= ypuntero ? true : false;
+        return ymover <= this.ypuntero && (ymover + DISTFILAS) >= this.ypuntero ? true : false;
     }
 }
 
-function comprobarDestinoVacio (cartadestino) {return cartadestino === undefined ? true : false;}
-function comprobarCartaVacia(carta) {return carta.numero === undefined ? true : false}
+Comprobaciones.prototype.comprobarDestinoVacio = function  (cartadestino) {return cartadestino === undefined ? true : false;}
 
-function comprobarNumCarta(cartamover, cartadestino, destino) {
+Comprobaciones.prototype.comprobarCartaVacia = function (carta) {return carta.numero === undefined ? true : false}
+
+Comprobaciones.prototype.comprobarNumCarta = function (cartamover, cartadestino, destino) {
     
-    if (comprobarDestinoVacio (cartadestino) || comprobarCartaVacia(cartadestino)) {
+    if (this.comprobarDestinoVacio (cartadestino) || this.comprobarCartaVacia(cartadestino)) {
         if (cartamover.numero === 1 && destino === TIPOMONTON)  return true;
         if (destino === TIPOJUEGO || destino === TIPORESERVA) return true;
     }
@@ -25,17 +34,17 @@ function comprobarNumCarta(cartamover, cartadestino, destino) {
     return false;
 }
 
-function comprobarPaloCarta(cartamover, palodestino) {return cartamover.palo === palodestino ? true : false}
+Comprobaciones.prototype.comprobarPaloCarta = function (cartamover, palodestino) {return cartamover.palo === palodestino ? true : false}
 
-function comprobarColorCarta(cartamover, cartadestino) {
+Comprobaciones.prototype.comprobarColorCarta = function (cartamover, cartadestino) {
     return cartamover.color !== cartadestino.color || cartadestino.color === undefined ? true : false
 }
 
-function comprobarPunteroEnReserva(reserva) {
+Comprobaciones.prototype.comprobarPunteroEnReserva = function (reserva) {
     return reserva.some(nreserva => {
-        if (dentroX(nreserva.x) && dentroY(nreserva.y, true)) {
-            areapuntero = nreserva;
-            if(origencarta === undefined) origencarta = TIPORESERVA;
+        if (this.dentroX(nreserva.x) && this.dentroY(nreserva.y, true)) {
+            accion.establecerAreaPuntero(nreserva);
+            if(accion.origencarta === undefined) accion.darOrigenCarta(TIPORESERVA);
             tipomovimiento = TIPORESERVA;
             return true;
         }
@@ -43,12 +52,12 @@ function comprobarPunteroEnReserva(reserva) {
     });
 }
 
-function comprobarPunteroEnCarta () {
+Comprobaciones.prototype.comprobarPunteroEnCarta = function  () {
     return juego.some(columna => {
         return columna.some(fila => {
-            if (dentroX(fila.x) && dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
-                areapuntero = fila;
-                if (origencarta === undefined) origencarta = TIPOJUEGO; 
+            if (this.dentroX(fila.x) && this.dentroY(fila.y, columna.indexOf(fila) === columna.length-1 ? true : false)) {
+                accion.establecerAreaPuntero(fila);
+                if (accion.origencarta === undefined) accion.darOrigenCarta(TIPOJUEGO); 
                 tipomovimiento = TIPOJUEGO;
                 return true;
             }
@@ -57,32 +66,29 @@ function comprobarPunteroEnCarta () {
     });
 }
 
-function comprobarMoverAJuego() {
+Comprobaciones.prototype.comprobarMoverAJuego = function (areapuntero) {
     return juego.some(columna => {
         if (columna.includes(areapuntero)){
-            if (comprobarNumCarta(seleccionar[0], areapuntero, TIPOJUEGO) && 
-                comprobarColorCarta(seleccionar[0], areapuntero) && 
-                columna.indexOf(areapuntero) === columna.length - 1)
-            {
-                return true;
-            }
+            if (this.comprobarNumCarta(seleccionar[0], areapuntero, TIPOJUEGO) && 
+                this.comprobarColorCarta(seleccionar[0], areapuntero) && 
+                columna.indexOf(areapuntero) === columna.length - 1) return true;
             return false;
         }
     });
 }
 
-function comprobarMoverAMazo(disponiblesmover, monton, lugarorigen) {
+Comprobaciones.prototype.comprobarMoverAMazo = function (disponiblesmover, monton, lugarorigen) {
     if (disponiblesmover !== undefined){
         for (let d = 0; d < disponiblesmover.length; d++){
             for (let m = 0; m < monton.length; m++) {
-                if (comprobarNumCarta(disponiblesmover[d], monton[m].carta, TIPOMONTON) && 
-                    comprobarPaloCarta(disponiblesmover[d], monton[m].palo)) {
+                if (this.comprobarNumCarta(disponiblesmover[d], monton[m].carta, TIPOMONTON) && 
+                    this.comprobarPaloCarta(disponiblesmover[d], monton[m].palo)) {
                     
-                    montondestino = monton[m];
+                    accion.establecerMontonDestino(monton[m]);
                     seleccionar[0] = disponiblesmover[d];
                     seleccionar[0].guardarPosicionOriginal();
-                    if (lugarorigen === TIPOJUEGO) borrarCartaJuego();
-                    if (lugarorigen === TIPORESERVA) borrarCartaReserva();
+                    if (lugarorigen === TIPOJUEGO) accion.borrarCartaJuego();
+                    if (lugarorigen === TIPORESERVA) accion.borrarCartaReserva();
 
                     return true;
                 }
@@ -92,13 +98,13 @@ function comprobarMoverAMazo(disponiblesmover, monton, lugarorigen) {
     return false;
 }
 
-function comprobarMoverAReserva() {return seleccionar.length === 1 && areapuntero.carta === undefined ? true : false}
+Comprobaciones.prototype.comprobarMoverAReserva = function (areapuntero) {return seleccionar.length === 1 && areapuntero.carta === undefined ? true : false}
 
-function comprobarMoverSeleccion() {
+Comprobaciones.prototype.comprobarMoverSeleccion = function () {
     let cumplecondicion = true;
     for (let carta = 1; carta < seleccionar.length; carta++){
-        if (!comprobarNumCarta(seleccionar[carta], seleccionar[carta-1], TIPOJUEGO) || 
-            !comprobarColorCarta(seleccionar[carta], seleccionar[carta-1])){
+        if (!this.comprobarNumCarta(seleccionar[carta], seleccionar[carta-1], TIPOJUEGO) || 
+            !this.comprobarColorCarta(seleccionar[carta], seleccionar[carta-1])){
                 carta = seleccionar.length;
                 cumplecondicion = false;
             }
@@ -106,23 +112,23 @@ function comprobarMoverSeleccion() {
     return cumplecondicion;
 }
 
-function comprobarRestrincion() {return seleccionar.length <= restrincion ? true : false;}
+Comprobaciones.prototype.comprobarRestrincion = function () {return seleccionar.length <= restrincion ? true : false;}
 
-function comprobarMovimientosDesdeReserva() {
+Comprobaciones.prototype.comprobarMovimientosDesdeReserva = function () {
     return cartasreserva.some(cartare => {
         return ultimasCartas.some(cartatab => {
-            return comprobarNumCarta(cartare, cartatab, TIPOJUEGO) && comprobarColorCarta(cartare, cartatab) ?  true : false;
+            return this.comprobarNumCarta(cartare, cartatab, TIPOJUEGO) && this.comprobarColorCarta(cartare, cartatab) ?  true : false;
         });
     });
 }
 
-function comprobarMovimientosDesdeJuego(){
+Comprobaciones.prototype.comprobarMovimientosDesdeJuego = function (){
     let cartamovimiento = [];
     let masc = 0;
     for (let i = 0; i < ultimasCartas.length; i++) {
         for (let j = 0; j < ultimasCartas.length; j++) {
-           if (comprobarNumCarta(ultimasCartas[i], ultimasCartas[j], TIPOJUEGO) && 
-               comprobarColorCarta(ultimasCartas[i], ultimasCartas[j]) && i !== j){
+           if (this.comprobarNumCarta(ultimasCartas[i], ultimasCartas[j], TIPOJUEGO) && 
+               this.comprobarColorCarta(ultimasCartas[i], ultimasCartas[j]) && i !== j){
                 cartamovimiento[masc] = [ultimasCartas[i], ultimasCartas[j], true];
                 masc++;
             } 
@@ -130,11 +136,11 @@ function comprobarMovimientosDesdeJuego(){
     }
     if (cartamovimiento.length === 0) return false;
     else {
-        cartamovimiento.forEach(comprobacion =>{   
+        cartamovimiento.forEach(comprueba =>{   
             let filac;
             let columc;
             juego.some(fila => {
-                if (fila.includes(comprobacion[0])){
+                if (fila.includes(comprueba[0])){
                     filac = fila.length-2;
                     columc = juego.indexOf(fila);
                     return true;
@@ -142,8 +148,8 @@ function comprobarMovimientosDesdeJuego(){
                 return false;
             })
             if(juego[columc][filac] === undefined || 
-               juego[columc][filac].numero !== comprobacion[1].numero ||
-               juego[columc][filac].color !== comprobacion[1].color) comprobacion[2] = false;
+               juego[columc][filac].numero !== comprueba[1].numero ||
+               juego[columc][filac].color !== comprueba[1].color) comprueba[2] = false;
         })
     }
     return cartamovimiento.some(mismotipo =>{

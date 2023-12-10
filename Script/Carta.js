@@ -28,16 +28,16 @@ Carta.prototype.darYCarta = function (_y) {this.y = _y};
 
 
 Carta.prototype.generarPosicionXAuto = function () {
-    if (montondestino.x > this.x) this.x += VELOCIDAD;
-    if (montondestino.x < this.x) this.x -= VELOCIDAD;
+    if (accion.montondestino.x > this.x) this.x += VELOCIDAD;
+    if (accion.montondestino.x < this.x) this.x -= VELOCIDAD;
 
-    if (Math.abs(this.x - montondestino.x) < VELOCIDAD) this.x = montondestino.x;
+    if (Math.abs(this.x - accion.montondestino.x) < VELOCIDAD) this.x = accion.montondestino.x;
 };
 Carta.prototype.generarPosicionYAuto = function () {
-    if (montondestino.y > this.y) this.y += VELOCIDAD;
-    if (montondestino.y < this.y) this.y -= VELOCIDAD;
+    if (accion.montondestino.y > this.y) this.y += VELOCIDAD;
+    if (accion.montondestino.y < this.y) this.y -= VELOCIDAD;
 
-    if (Math.abs(this.y - montondestino.y) < VELOCIDAD) this.y = montondestino.y;
+    if (Math.abs(this.y - accion.montondestino.y) < VELOCIDAD) this.y = accion.montondestino.y;
 };
 
 Carta.prototype.guardarPosicionOriginal = function () {
@@ -47,18 +47,16 @@ Carta.prototype.guardarPosicionOriginal = function () {
 Carta.prototype.recuperarPosicionOriginal = function () {
     this.x = this.xoriginal;
     this.y = this.yoriginal;
-
 };
 
 Carta.prototype.generarPosicionX = function () {
-    this.x = xpuntero - (ANCHOCARTA / 2);
+    this.x = comprobacion.xpuntero - (ANCHOCARTA / 2);
 };
 Carta.prototype.generarPosicionY = function (posicion) {
-    this.y = ypuntero - (LARGOCARTA / 2) + (DISTFILAS * posicion);
+    this.y = comprobacion.ypuntero - (LARGOCARTA / 2) + (DISTFILAS * posicion);
 };
 
 Carta.prototype.guardarPosicionNueva = function (xnueva, ynueva, posicion) {
-    
     this.y = ynueva + (DISTFILAS * posicion);
     this.x = xnueva;
 };

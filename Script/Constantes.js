@@ -39,6 +39,12 @@ const VELOCIDAD = 20;
 /* ----- VARIABLES -----*/
 let tipojuegocrear = "ALEATORIO";
 
+/* OBJETOS */
+let tablero;
+let accion;
+let comprobacion;
+
+/*TABLERO*/
 let ncartas;
 let restrincion;
 let imagen
@@ -49,17 +55,7 @@ let reserva_monton;
 
 let ultimasCartas;
 let cartasreserva;
-
-
 let tipomovimiento;
-let llegadodestino;
-
-let montondestino;
-let xpuntero;
-let ypuntero;
-
-let areapuntero;
-let origencarta;
 
 /* ----- JUEGOS DEFINIDOS -----*/
 const J_FACIL = [{'numero': 13, 'palo':  "Diamante"}, 
