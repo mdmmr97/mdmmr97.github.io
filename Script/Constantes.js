@@ -43,7 +43,6 @@ let ncartas;
 let restrincion;
 let imagen
 
-let historial;
 let seleccionar;
 let juego;
 let reserva_monton;

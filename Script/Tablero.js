@@ -7,6 +7,8 @@ window.onload = function() {
     let tabla, record, campotexto, nombreplayer;
     let records = [];
 
+    let crearjuego;
+
     /* INICIAR ELEMENTOS */
 
     function iniciarMusica() {
@@ -60,7 +62,8 @@ window.onload = function() {
         imagen.src = "Imagenes/Baraja.png";
         darImagen(imagen);
 
-        historial = [];
+        crearjuego = new CrearTablero();
+
         seleccionar = [];
         juego = [[]];
         reserva_monton = [];
@@ -227,8 +230,8 @@ window.onload = function() {
         document.addEventListener("mousemove", moverCartaRaton);	
         document.addEventListener("mouseup", dejarCartaRaton);
 
-        crearJuego();
-        crearReservaMonton();
+        crearjuego.crearJuego();
+        crearjuego.crearReservaMonton();
         id1= setInterval(pintaTablero, 1000/100);
 
         iniciarContador = Date.now(); 
