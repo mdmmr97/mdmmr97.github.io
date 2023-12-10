@@ -44,19 +44,6 @@ let tablero;
 let accion;
 let comprobacion;
 
-/*TABLERO*/
-let ncartas;
-let restrincion;
-let imagen
-
-let seleccionar;
-let juego;
-let reserva_monton;
-
-let ultimasCartas;
-let cartasreserva;
-let tipomovimiento;
-
 /* ----- JUEGOS DEFINIDOS -----*/
 const J_FACIL = [{'numero': 13, 'palo':  "Diamante"}, 
                  {'numero': 7, 'palo':  "Treboles"},

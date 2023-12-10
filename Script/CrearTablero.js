@@ -7,7 +7,6 @@ function CrearTablero () {
     this.y = YREPARTO;
 
     this.ultimopalo = undefined; 
-    this.posicion = undefined; 
     this.carta = undefined; 
     this.limitefila = undefined;
 
@@ -15,13 +14,14 @@ function CrearTablero () {
     this.columna = 0;
     this.fila = 0;
 
-    this.carta_reserva = undefined; 
-    this.mazo_monton = undefined; 
     this.xreserva_monton = undefined; 
     this.xtipo = undefined;
 
     this.numero = 0;
     this.baraja = [];
+
+    this.juego = [];
+    this.reserva_monton = [];
 }
 
 CrearTablero.prototype.darPalo = function (i) {
@@ -67,11 +67,11 @@ CrearTablero.prototype.darY = function () {
         this.cambiofila = true;
     } else this.cambiofila = false;
 
-    this.posicion = this.y;
+    let posicion = this.y;
     this.y += DISTFILAS;
     this.fila++;
 
-    return this.posicion;
+    return posicion;
 }
 
 CrearTablero.prototype.darX = function () {
@@ -130,7 +130,7 @@ CrearTablero.prototype.crearJuego = function () {
         carta.darXCarta(this.darX());
     });
 
-    for (let c = 0; c < NCOLUMNAS; c++) juego[c] = [];
+    for (let c = 0; c < NCOLUMNAS; c++) this.juego[c] = [];
     let i = 0;
 
     for (let c = 0; c < NCOLUMNAS; c++){
@@ -138,11 +138,12 @@ CrearTablero.prototype.crearJuego = function () {
         for (let f = 0; f < NFILAS - this.limitefila; f++){
 
             if(i < this.baraja.length){
-                juego[c][f] = this.baraja[i];
+                this.juego[c][f] = this.baraja[i];
                 i++;
             }
         }
     }
+    tablero.darJuego(this.juego);
 }
 
 CrearTablero.prototype.darXReservaMonton = function (tipo){
@@ -155,31 +156,35 @@ CrearTablero.prototype.darXReservaMonton = function (tipo){
         this.xtipo = tipo
     }
 
-    this.posicion = this.xreserva_monton;
+    let posicion = this.xreserva_monton;
     this.xreserva_monton += DISTCOLUMNAS;
 
-    return this.posicion;
+    return posicion;
 }
 
 CrearTablero.prototype.crearReserva =  function  () {
-    this.carta_reserva = new Reserva();
-    this.carta_reserva.darXReserva(this.darXReservaMonton(TIPORESERVA));
+    let carta_reserva = new Reserva();
+    carta_reserva.darXReserva(this.darXReservaMonton(TIPORESERVA));
 
-    return this.carta_reserva;
+    return carta_reserva;
 }
 
 CrearTablero.prototype.crearMonton =  function  (i) {
-    this.mazo_monton = new Monton();
-    this.mazo_monton.darPaloMonton(PALOS[i-PALOS.length]);
-    this.mazo_monton.darXMonton(this.darXReservaMonton(TIPOMONTON));
+    let mazo_monton = new Monton();
+    mazo_monton.darPaloMonton(PALOS[i-PALOS.length]);
+    mazo_monton.darXMonton(this.darXReservaMonton(TIPOMONTON));
 
-    return this.mazo_monton;
+    return mazo_monton;
 }
 
 CrearTablero.prototype.crearReservaMonton = function c(){
     for (let i = 0; i < COLUMNASRESERVA_MONTON; i++){
 
-        if (i < COLUMNASRESERVA_MONTON/2) reserva_monton[i] = this.crearReserva();
-        else reserva_monton[i] = this.crearMonton(i);
+        if (i < COLUMNASRESERVA_MONTON/2) this.reserva_monton[i] = this.crearReserva();
+        else this.reserva_monton[i] = this.crearMonton(i);
     }
+
+    tablero.darReserva(this.reserva_monton.slice(0, COLUMNASRESERVA_MONTON/2));
+    tablero.darMonton(this.reserva_monton.slice(COLUMNASRESERVA_MONTON/2, this.reserva_monton.length));
+
 }
