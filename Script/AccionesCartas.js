@@ -207,7 +207,7 @@ function terminadoPintar() {
 function guardarEnMazo(){
     reserva_monton.some(monton => {
         if (monton === montondestino) {
-            monton.carta = seleccionar[0];
+            monton.darCartaMonton(seleccionar[0]);
             borrarCartaSelect();
             ncartas--;
             return true;

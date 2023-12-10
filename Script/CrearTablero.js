@@ -97,12 +97,10 @@ function crearBaraja() {
 
     for (let i = 0; i < TAMANOBARAJA; i++){
         carta = new Carta();
-        carta.palo = PALOS[darPalo(i)];
-        carta.color = COLOR[darColor()]
-        carta.numero = darNumero();
-        carta.coordimagen = obtenerCoordImagen(carta.palo);
-        carta.xoriginal = 0;
-        carta.yoriginal = 0;
+        carta.darPaloCarta(PALOS[darPalo(i)]);
+        carta.darColorCarta(COLOR[darColor()]);
+        carta.darNumeroCarta(darNumero());
+        carta.darCoorImagenCarta(obtenerCoordImagen(carta.palo));
         
         baraja[i] = carta;
     }
@@ -140,8 +138,8 @@ function crearJuego() {
     baraja.sort(mezclarMazo);
 
     baraja.forEach(carta => {
-        carta.y = darY();
-        carta.x = darX();
+        carta.darYCarta(darY());
+        carta.darXCarta(darX());
     });
 
     for (let c = 0; c < NCOLUMNAS; c++) juego[c] = [];
@@ -184,8 +182,8 @@ function crearReserva () {
 
 function crearMonton (i) {
     mazo_monton = new Monton();
-    mazo_monton.palo = PALOS[i-PALOS.length];
-    mazo_monton.x = darXReservaMonton(TIPOMONTON);
+    mazo_monton.darPaloMonton(PALOS[i-PALOS.length]);
+    mazo_monton.darXMonton(darXReservaMonton(TIPOMONTON));
 
     return mazo_monton;
 }

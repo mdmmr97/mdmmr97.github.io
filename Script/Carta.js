@@ -1,15 +1,15 @@
 function Carta () {
 
-    let numero;  //numero de la carta
-    let palo;    //palo de la carta
-    let color;
-    let coordimagen; 
+    this.numero;  //numero de la carta
+    this.palo;    //palo de la carta
+    this.color;
+    this.coordimagen; 
     
-    let x //posicion x tablero
-    let y //posicion y tablero 
+    this.x //posicion x tablero
+    this.y //posicion y tablero 
 
-    let xoriginal;
-    let yoriginal;
+    this.xoriginal = 0;
+    this.yoriginal = 0;
 }
 function darImagen(_imagen) {Carta.prototype.imagen = _imagen;}
 
@@ -18,6 +18,14 @@ Carta.prototype.altom = LARGOCARTAIM;
 
 Carta.prototype.ancho = ANCHOCARTA;
 Carta.prototype.alto = LARGOCARTA;
+
+Carta.prototype.darNumeroCarta = function (_numero) {this.numero = _numero};
+Carta.prototype.darPaloCarta = function (_palo) {this.palo = _palo};
+Carta.prototype.darColorCarta = function (_color) {this.color = _color};
+Carta.prototype.darCoorImagenCarta = function (_coordimagen) {this.coordimagen = _coordimagen};
+Carta.prototype.darXCarta = function (_x) {this.x = _x};
+Carta.prototype.darYCarta = function (_y) {this.y = _y};
+
 
 Carta.prototype.generarPosicionXAuto = function () {
     if (montondestino.x > this.x) this.x += VELOCIDAD;
