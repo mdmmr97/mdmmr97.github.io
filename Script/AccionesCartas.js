@@ -2,27 +2,6 @@ let cartavacia;
 let captura
 let columnavacia = false;
 
-/* ----- HISTORIAL ----- */
-function guardarEnHistorial() {
-    captura = new Historial();
-    captura.guardarJuego();
-    captura.guardarReservaMonton();
-    captura.guardarNCartas();
-    captura.guardarRestrincion();
-
-    historial.push(captura);
-}
-
-function borrarMovimiento() {
-    historial.pop();
-
-    captura = historial[historial.length-1];
-    juego = captura.recuperarJuego();
-    reserva_monton = captura.recuperarReservaMonton();
-    ncartas = captura.recuperarNCartas();
-    restrincion = captura.recuperarRestrincion();
-}
-
 /* ----- GESTION CARTAS ----- */
 function guardarEnSeleccion(){
     let selec;
@@ -177,7 +156,6 @@ function dejarCarta(){
             if (comprobarMoverAReserva()){
                 guardarEnReserva(areapuntero.x);
                 borrarCartaSelect();
-                //guardarEnHistorial();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -188,7 +166,6 @@ function dejarCarta(){
             if (comprobarMoverAJuego()){
                 guardarEnJuego(areapuntero);
                 borrarCartaSelect();
-                //guardarEnHistorial();
             }
             else{
                 devolverCartaPosicionOriginal();
@@ -233,7 +210,6 @@ function guardarEnMazo(){
             monton.carta = seleccionar[0];
             borrarCartaSelect();
             ncartas--;
-            //guardarEnHistorial();
             return true;
         }
         return false;

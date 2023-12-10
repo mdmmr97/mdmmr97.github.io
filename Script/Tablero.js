@@ -1,23 +1,13 @@
 window.onload = function() {
 
     let musicafondo, audioseleccionar, audiodejar, musicavictoria, musicaperdido, musicamazo;
-    let iniciar, silenciarfondo, juegoaleatorio, juegofacil, juegomedio;
+    let instrucciones, iniciar, silenciarfondo, juegoaleatorio, juegofacil, juegomedio, terminarpartida;
     let canvas, ctx, mostrarncartas, iniciarContador, contador, mostrarrestrincion;
-    let pintando, id1, id2, resuelto, record, nombreplayer;
+    let pintando, id1, id2, resuelto;
+    let tabla, record, campotexto, nombreplayer;
     let records = [];
 
-    canvas = document.getElementById("miCanvas");
-    ctx = canvas.getContext("2d");
-
-    mostrarrestrincion = document.getElementById("maxcartas");
-    contador = document.getElementById("tiempo"); 
-    mostrarncartas = document.getElementById("cartastotal");
-
-    let campotexto = document.getElementById("campotexto");
-
-    let tabla = document.getElementById("mostrarrecord");
-    recuperarDatoLocal(0);
-    document.getElementById("botonreset").onclick = resetearDatos;
+    /* INICIAR ELEMENTOS */
 
     function iniciarMusica() {
 
@@ -45,6 +35,22 @@ window.onload = function() {
         juegoaleatorio = document.getElementById("aleatorio");
         juegofacil = document.getElementById("facil");
         juegomedio = document.getElementById("medio");
+        terminarpartida = document.getElementById("finalizar");
+        instrucciones = document.getElementById("instrucciones") 
+    }
+
+    function iniciarElementosHTML () {
+        canvas = document.getElementById("miCanvas");
+        ctx = canvas.getContext("2d");
+
+        mostrarrestrincion = document.getElementById("maxcartas");
+        contador = document.getElementById("tiempo"); 
+        mostrarncartas = document.getElementById("cartastotal");
+
+        campotexto = document.getElementById("campotexto");
+
+        tabla = document.getElementById("mostrarrecord");
+        recuperarDatoLocal(0);
     }
 
     function iniciarVariables() {
@@ -67,6 +73,8 @@ window.onload = function() {
         llegadodestino = false;
         pintando = false;
     }
+
+    /* FUNCIONALIDAD CANVAS */
 
     function pintarCarta (carta) {
         ctx.drawImage(carta.imagen,         // Imagen completa Sprite
@@ -149,6 +157,8 @@ window.onload = function() {
         }
 	}
 
+    /* FUNCIONALIDAD MOUSE */
+
     function obtenerPosicionPuntero(e){
         let areacarta = canvas.getBoundingClientRect();
         xpuntero = e.clientX - areacarta.left;
@@ -191,6 +201,9 @@ window.onload = function() {
         }
     }
 
+    /* CREAR Y TERMINAR JUEGO */
+
+    iniciarElementosHTML();
     iniciarMusica();
     iniciarBotones();
 
@@ -200,12 +213,15 @@ window.onload = function() {
             iniciar.disabled = false;
             nombreplayer = campotexto.value;
 
-        }else iniciar.disabled = true;
+        }else {
+            iniciar.disabled = true;
+        }
     })
 
     iniciar.onclick = () => {
 
         iniciarVariables();
+        terminarpartida.disabled = false;
 
         document.addEventListener("mousedown", pulsarCartaRaton);
         document.addEventListener("mousemove", moverCartaRaton);	
@@ -242,6 +258,7 @@ window.onload = function() {
         }
         else musicaperdido.play();
         resuelto = false;
+        terminarpartida.disabled = true;
     }
 
     /* FUNCIONALIDAD LOCALSTORE */
@@ -304,6 +321,16 @@ window.onload = function() {
 
     /* FUNCIONALIDAD BOTONES */
 
+    instrucciones.onclick = () => {
+        let funcionalidades = document.getElementById("funcionalidades");
+        if (funcionalidades.classList.length === 0) funcionalidades.classList.add("d-none")
+        else funcionalidades.classList.remove("d-none")
+    }
+    
+    juegoaleatorio.onclick = () => {tipojuegocrear = "ALEATORIO";}
+    juegofacil.onclick = () => {tipojuegocrear = "FACIL";}
+    juegomedio.onclick = () => {tipojuegocrear = "MEDIO"}
+
     silenciarfondo.onclick = () => {
         let musica = document.getElementById("btvolumen");
 
@@ -319,7 +346,15 @@ window.onload = function() {
         }
     }
 
-    juegoaleatorio.onclick =() => {tipojuegocrear = "ALEATORIO";}
-    juegofacil.onclick = () => {tipojuegocrear = "FACIL";}
-    juegomedio.onclick = () => {tipojuegocrear = "MEDIO"}
+    terminarpartida.onclick = () => {
+        resuelto = false;
+    
+        document.removeEventListener("mousedown", pulsarCartaRaton);
+        document.removeEventListener("mousemove", moverCartaRaton);	
+        document.removeEventListener("mouseup", dejarCartaRaton);
+
+        finalizarjuego();
+    }
+
+    document.getElementById("botonreset").onclick = resetearDatos;
 }

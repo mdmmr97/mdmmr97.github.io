@@ -33,63 +33,133 @@
             <audio id="dejarmazo" src="Sonido/Enmazo.mp3"></audio>
         </div>
         <div class="wrapper">
-            <div class="titulo"><h1>CARTABLANCA</h1></div>
-            <div class="row justify-content-center">
-                <div class="col-xl-auto col-xxl-7 p-0 m-2 canvas">
+
+            <div class="row justify-content-center titulo">
+                <div class="col-1 ml-4">
+                    <img src="Imagenes/cartas.png">
+                </div>
+                <div class="col-3 text-light">
+                    <h1 class="align-middle">CARTABLANCA</h1>
+                </div>
+                <div class="col-1 mr-4 reflejar">
+                    <img src="Imagenes/cartas.png">
+                </div>
+            </div>
+
+            <div class="row justify-content-center w-100">
+                <div class="col-xl-auto col-xxl-auto p-0 canvas">
                     <div class="row m-1 mb-0 cabecera">
-                        <div class="col-3 ml-1"><p id="maxcartas"></p></div>
-                        <div class="col-3 ml-1"><p id="tiempo"></p></div>
+                        <div class="col-2 p-0"><p id="maxcartas"></p></div>
+                        <div class="col-3"><p id="tiempo"></p></div>
                         <div class="col-3 ml-1"><p id="cartastotal"></p></div>
                     </div>
-                    <canvas id="miCanvas" width="1024" height="800"></canvas>
+                    <canvas id="miCanvas" width="1022" height="800"></canvas>
                 </div>
-                <div class="col-xl-2 col-xxl-3 p-0 m-2">     
-                    <div class="tipodejuego">
-                        <label class="text-light">Selecciona tipo de juego:</label>
-                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="aleatorio" autocomplete="off" checked>
-                            <label class="btn btn-outline-light" for="aleatorio">Aleatorio</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="facil" autocomplete="off">
-                            <label class="btn btn-outline-light" for="facil">Facil</label>
+                <div class="col-xl-2 col-xxl-3 p-0 m-1">  
 
-                            <input type="radio" class="btn-check" name="btnradio" id="medio" autocomplete="off">
-                            <label class="btn btn-outline-light" for="medio">Medio</label>
+                    <div class="mb-4">
+                        <h3 class="text-light text-center">Instrucciones</h3>
+                        <button id="instrucciones" title="Instrucciones del juego" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="bi bi-journal-text"></i>
+                        </button>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body p-1">
+                                <h6 class="text-center">Instrucciones CartaBlanca</h6>
+                                <p class="m-1">
+                                    El objetivo del juego es mover todas las cartas a sus cuatro montones respectivos en orden ascendente, comenzando con los ases y 
+                                    terminando con los reyes. Para hacer esto, sigue estas instrucciones:
+                                </p> 
+                                <ol class="ps-3 mb-1">
+                                    <li><p class="m-1">
+                                        En la parte superior izquierda del tablero, hay cuatro espacios vacíos llamados "reserva". Puedes mover una carta a una 
+                                        celda en cualquier momento y reservarla para mas adelante.
+                                    </p></li>
+                                    <li><p class="m-1">
+                                        En la parte superior derecha del tablero, hay cuatro espacios vacíos llamados "montones". Aquí es donde se colocaran las 
+                                        cartas en orden ascendente por palo.
+                                    </p></li>
+                                    <li><p class="m-1">
+                                        En la parte inferior del tablero, hay ocho columnas de cartas. Puedes mover las cartas de una columna a otra siempre y cuando sigas 
+                                        las siguientes reglas:
+                                        </p>
+                                        <ul class="ps-2 mb-1">
+                                            <li><p class="m-1">
+                                                Solo puedes mover una carta a una columna vacía o a la parte superior de otra columna, si la carta que mueves es de un valor inferior y 
+                                                tiene un color opuesto a la carta en la parte superior de la columna de destino.
+                                            </p></li>
+                                            <li><p class="m-1">
+                                                Puedes mover varias cartas a la vez si el numero es inferio o igual al nº de "max mover" indicado a la izquierda del tiempo. Para mover
+                                                varias cartas, por debajo de la que seleccionas las demas cartas deben seguir un orden descendente y alternar los colores.
+                                            </p></li>
+                                        </ul>
+                                    </li>
+                                    <li><p class="m-1">
+                                        El juego se gana cuando todas las cartas se han movido a su respectivo monton.
+                                    </p></li>
+                                </ol>
+                            </div>
                         </div>
-                    </div>
-                    <div class="nombre" id="nombreplayer">
-                        <label class="text-light">Introduce un nombre:</label>
-                        <input type="text" lass="form-control" id="campotexto" required>
-                    </div>
-                    <div class="empezarpartida ">
-                        <button type="button" id="nuevojuego" disabled>Empezar Partida</button>
-                    </div>
-                    <div class="tablaresultados">
-                        <table class="table text-center">
-                            <thead class="table-success table-bordered">
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Tiempo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-light" id="mostrarrecord">
-                            </tbody>
-                        </table>
-                        <div id ="Botonera">
-                            <input id="botonreset" type="button" value="Resetear"/>
-                        </div>
-                    </div> 
-                    <div class="row">
-                        <div class="col-4">
-                            <button id="silenciarfondo" class="m-0 w-100">
-                                <i id="btvolumen" class="bi bi-volume-up-fill"></i>
-                            </button>
-                        </div>
-                        <div class="col-4">
-                            <button type="button" onclick="borrarMovimiento()">
-                                <i class="fa-solid fa-rotate-right fa-flip-both"></i>
-                            </button>
+                    </div>  
+
+                    <div id="funcionalidades">
+                        <div id="iniciarjuego" class="mb-4">
+                            <h3 class="text-light text-center">Iniciar Partida</h3>
+                            <div class="tipodejuego">
+                                <label class="text-light">Selecciona tipo de juego:</label>
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="btnradio" id="aleatorio" autocomplete="off" checked title="Modo Aleatorio">
+                                    <label class="btn btn-outline-light" for="aleatorio">Aleatorio</label>
+    
+                                    <input type="radio" class="btn-check" name="btnradio" id="facil" autocomplete="off" title="Modo Facil">
+                                    <label class="btn btn-outline-light" for="facil">Facil</label>
+    
+                                    <input type="radio" class="btn-check" name="btnradio" id="medio" autocomplete="off" title="Modo Modio">
+                                    <label class="btn btn-outline-light" for="medio">Medio</label>
+                                </div>
+                            </div>
+                            <div class="nombre" id="nombreplayer">
+                                <label class="text-light">Introduce un nombre: *</label>
+                                <input type="text" lass="form-control" id="campotexto" placeholder="nombre jugador" title="Este campo es obligatorio" required>
+                            </div>
+                            <div class="empezarpartida ">
+                                <button type="button" id="nuevojuego" title="Boton de empezar partida" disabled>Empezar Partida</button>
+                            </div>
+                        </div> 
+    
+                        <div class="tablaresultados w-100 mb-4">
+                            <h3 class="text-light text-center">Records</h3>
+                            <table class="table text-center">
+                                <thead class="table-success table-bordered">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Tiempo</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-light" id="mostrarrecord">
+                                </tbody>
+                            </table>
+                        </div> 
+    
+                        <div class="row p-0">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <button id="silenciarfondo" class="m-0 w-100" title="Boton para silenciar la musica de fondo">
+                                        <i id="btvolumen" class="bi bi-volume-up-fill"></i>
+                                    </button>
+                                </div>
+                                <div class="mb-3">
+                                    <button id="finalizar" class="m-0 w-100" title="Boton para finalizar la partida en curso" disabled>
+                                        <i class="bi bi-x-square-fill"></i>
+                                    </button>
+                                </div>
+                                <div class="mb-3">
+                                    <button id="botonreset" title="Boton para borrar los datos almacenados en el LocalStorage">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
