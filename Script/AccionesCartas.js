@@ -39,7 +39,7 @@ function guardarEnJuego(posicioncarta) {
 function guardarEnReserva(posicionx) {
     reserva_monton.some((reserva, index) => {
         if((reserva.x === posicionx) && index < COLUMNASRESERVA_MONTON/2) {
-            reserva.carta = seleccionar[0];
+            reserva.darCartaReserva(seleccionar[0]);
             reserva.carta.guardarPosicionNueva(reserva.x, reserva.y, 0);
             restrincion--;
             return true;
@@ -89,7 +89,7 @@ function borrarCartaSelect() {
 function borrarCartaReserva() {
     reserva_monton.some((monton, index) => {
         if(monton.carta === seleccionar[0] && index < COLUMNASRESERVA_MONTON/2){
-            monton.carta = undefined;
+            monton.darCartaReserva(undefined);
             restrincion++;
             return true;
         }

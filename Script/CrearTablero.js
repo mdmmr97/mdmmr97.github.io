@@ -175,7 +175,7 @@ function darXReservaMonton(tipo){
 
 function crearReserva () {
     carta_reserva = new Reserva();
-    carta_reserva.x =darXReservaMonton(TIPORESERVA);
+    carta_reserva.darXReserva(darXReservaMonton(TIPORESERVA));
 
     return carta_reserva;
 }
